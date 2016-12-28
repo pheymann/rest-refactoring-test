@@ -1,0 +1,13 @@
+<configuration scan="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%level] %message %xException%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.github.pheymann.rrtt.TestService" level="DEBUG" />
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
