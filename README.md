@@ -1,4 +1,4 @@
-# rest-refactoring-test
+# rest-refactoring-test (rrt)
 Often you have to refactore or fix REST services which are not covered by extensive automated test and hard
 to test at all. But you want to make sure that these services haven't changed their behaviour after 
 your changes. 
@@ -29,5 +29,14 @@ assert(checkAndLog(testCase.runCase(config)))
 
 Here, we create a test for a *GET* endpoint `/rest/hello/:name` which is currently provided by the 
 refactored REST service on `refactored-rest.com` and the old version on `old-rest.com`. The library
-will create requests with random `name` and `age` and send the same request to both services. It will
+will create a request with random `name` and `age` and send it to both services. It will
 then compare the responses and log possible differences. This step is repeated 100 times as configured.
+
+## Dependecies
+This library is build with:
+ - Free Mondas provided by [Cats](https://github.com/typelevel/cats) to build the library api
+ - the http client by [akka-http](http://doc.akka.io/docs/akka-http/current/scala.html) for the REST calls
+ - the db api from [scalike-jdbc](http://scalikejdbc.org/) for the database interactions
+ 
+## Examples
+In this early phase you can only find some running examples in the [intregration tests](https://github.com/pheymann/rest-refactoring-test/tree/develop/core/src/it/scala/com/github/pheymann/rrtt).
