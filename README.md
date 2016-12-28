@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pheymann/rest-refactoring-test.svg?branch=develop)](https://travis-ci.org/pheymann/rest-refactoring-test)
+
 # rest-refactoring-test (rrt)
 Often you have to refactore or fix REST services which are not covered by extensive automated test and hard
 to test at all. But you want to make sure that these services haven't changed their behaviour after 
