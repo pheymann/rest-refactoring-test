@@ -37,6 +37,15 @@ then compare the responses and log possible differences. This step is repeated 1
 Besides the random generation or selection of values you are also able to load data from a database,
 e.g. if you need existing user ids.
 
+## Get The Library
+Until a release canidate or the first release is published you may import the project from Github:
+
+```sbt
+lazy val rrt = RootProject(uri("git://github.com/pheymann/rest-refactoring-test.git"))
+```
+
+and add it to your service code via `dependsOn`.
+
 ## Dependecies
 This library is build with:
  - Free Mondas provided by [Cats](https://github.com/typelevel/cats) to build the library api
