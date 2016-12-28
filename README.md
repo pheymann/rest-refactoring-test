@@ -32,6 +32,9 @@ refactored REST service on `refactored-rest.com` and the old version on `old-res
 will create a request with random `name` and `age` and send it to both services. It will
 then compare the responses and log possible differences. This step is repeated 100 times as configured.
 
+Besides the random generation or selection of values you are also able to load data from a database,
+e.g. if you need existing user ids.
+
 ## Dependecies
 This library is build with:
  - Free Mondas provided by [Cats](https://github.com/typelevel/cats) to build the library api
