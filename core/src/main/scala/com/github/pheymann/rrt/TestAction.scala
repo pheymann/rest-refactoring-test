@@ -45,11 +45,8 @@ object TestAction {
   final case class RetrieveStrings(size: Int) extends DbReadyTestAction[RandomValueGen[String]]
 
   final case class GetTestCase(test: EndpointTestCase) extends TestAction[TestResult]
-
-  def get(test: EndpointTestCase): Free[TestAction, TestResult] = GetTestCase(test).lift
-
   final case class PostTestCase(test: EndpointTestCase) extends TestAction[TestResult]
-
-  def post(test: EndpointTestCase): Free[TestAction, TestResult] = PostTestCase(test).lift
+  final case class PutTestCase(test: EndpointTestCase) extends TestAction[TestResult]
+  final case class DeleteTestCase(test: EndpointTestCase) extends TestAction[TestResult]
 
 }

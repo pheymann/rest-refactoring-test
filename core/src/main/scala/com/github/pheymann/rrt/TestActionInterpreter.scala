@@ -25,6 +25,8 @@ object TestActionInterpreter {
 
       case GetTestCase(test)  => TestRunner.runGetSequential(test, config, RandomUtil)
       case PostTestCase(test) => TestRunner.runPostSequential(test, config, RandomUtil)
+      case PutTestCase(test)  => TestRunner.runPutSequential(test, config, RandomUtil)
+      case DeleteTestCase(test) => TestRunner.runDeleteSequential(test, config, RandomUtil)
 
       case FromDatabase(table, selectCol, resultCol, _action) =>
         config.dbConfigOpt.fold(throw UndefinedDatabase)(dbInterpreter(table, selectCol, resultCol, _action, _))

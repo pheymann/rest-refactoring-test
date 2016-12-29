@@ -85,4 +85,14 @@ object TestRunner {
     requestServices(HttpMethods.POST, test, config, random)
   }
 
+  def runPutSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+                      (implicit system: ActorSystem): TestResult = {
+    requestServices(HttpMethods.PUT, test, config, random)
+  }
+
+  def runDeleteSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+                         (implicit system: ActorSystem): TestResult = {
+    requestServices(HttpMethods.DELETE, test, config, random)
+  }
+
 }
