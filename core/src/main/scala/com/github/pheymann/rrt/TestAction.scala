@@ -134,21 +134,84 @@ trait TestActionSyntax {
 
   import TestAction._
 
+  /** Creates a `RandomValueGen` for a `List` of static values. The generator will
+    * randomly select an element from the `List` on call.
+    *
+    * @param data static `List` of values
+    * @tparam A
+    */
   def staticData[A](values: A*): Free[TestAction, RandomValueGen[A]] = StaticData(values.toList).lift
 
+  /** Creates a `RandomValueGen` for `Int` values.
+    *
+    * @param maxOpt optional upper/lower bound of the values
+    */
   def intData(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = IntData(maxOpt).lift
+
+  /** Creates a `RandomValueGen` for positive `Int` values.
+    *
+    * @param maxOpt optional upper bound of the values
+    */
   def positiveIntData(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = PositiveIntData(maxOpt).lift
+
+  /** Creates a `RandomValueGen` for `Long` values.
+    *
+    * @param maxOpt optional upper/lower bound of the values
+    */
   def longData(maxOpt: Option[Long] = None): Free[TestAction, RandomValueGen[Long]] = LongData(maxOpt).lift
+
+  /** Creates a `RandomValueGen` for `Double` values.
+    *
+    * @param maxOpt optional upper/lower bound of the values
+    */
   def doubleData(maxOpt: Option[Double] = None): Free[TestAction, RandomValueGen[Double]] = DoubleData(maxOpt).lift
 
+  /** Read `Int` values from database.
+    *
+    * @param size at most `size` values
+    */
   def retrieveInts(size: Int): RetrieveInts = RetrieveInts(size)
+
+  /** Read `Long` values from database.
+    *
+    * @param size at most `size` values
+    */
   def retrieveLongs(size: Int): RetrieveLongs = RetrieveLongs(size)
+
+  /** Read `Double` values from database.
+    *
+    * @param size at most `size` values
+    */
   def retrieveDoubles(size: Int): RetrieveDoubles = RetrieveDoubles(size)
+
+  /** Read `String` values from database.
+    *
+    * @param size at most `size` values
+    */
   def retrieveStrings(size: Int): RetrieveStrings = RetrieveStrings(size)
 
+  /** Run the test case against a GET endpoint.
+    *
+    * @param test request generator
+    */
   def testGet(test: EndpointTestCase): Free[TestAction, TestResult] = GetTestCase(test).lift
+
+  /** Run the test case against a POST endpoint.
+    *
+    * @param test request generator
+    */
   def testPost(test: EndpointTestCase): Free[TestAction, TestResult] = PostTestCase(test).lift
+
+  /** Run the test case against a PUT endpoint.
+    *
+    * @param test request generator
+    */
   def testPut(test: EndpointTestCase): Free[TestAction, TestResult] = PutTestCase(test).lift
+
+  /** Run the test case against a DELETE endpoint.
+    *
+    * @param test request generator
+    */
   def testDelete(test: EndpointTestCase): Free[TestAction, TestResult] = DeleteTestCase(test).lift
 
 }
