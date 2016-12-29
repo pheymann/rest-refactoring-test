@@ -129,3 +129,28 @@ object TestAction {
   final case class DeleteTestCase(test: EndpointTestCase) extends TestAction[TestResult]
 
 }
+
+trait TestActionSyntax {
+
+  import TestAction._
+
+  def staticData[A](values: A*): Free[TestAction, RandomValueGen[A]] = StaticData(values.toList).lift
+
+  def intData(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = IntData(maxOpt).lift
+  def positiveIntData(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = PositiveIntData(maxOpt).lift
+  def longData(maxOpt: Option[Long] = None): Free[TestAction, RandomValueGen[Long]] = LongData(maxOpt).lift
+  def doubleData(maxOpt: Option[Double] = None): Free[TestAction, RandomValueGen[Double]] = DoubleData(maxOpt).lift
+
+  def retrieveInts(size: Int): RetrieveInts = RetrieveInts(size)
+  def retrieveLongs(size: Int): RetrieveLongs = RetrieveLongs(size)
+  def retrieveDoubles(size: Int): RetrieveDoubles = RetrieveDoubles(size)
+  def retrieveStrings(size: Int): RetrieveStrings = RetrieveStrings(size)
+
+  def testGet(test: EndpointTestCase): Free[TestAction, TestResult] = GetTestCase(test).lift
+  def testPost(test: EndpointTestCase): Free[TestAction, TestResult] = PostTestCase(test).lift
+  def testPut(test: EndpointTestCase): Free[TestAction, TestResult] = PutTestCase(test).lift
+  def testDelete(test: EndpointTestCase): Free[TestAction, TestResult] = DeleteTestCase(test).lift
+
+}
+
+object TestActionSyntax extends TestActionSyntax

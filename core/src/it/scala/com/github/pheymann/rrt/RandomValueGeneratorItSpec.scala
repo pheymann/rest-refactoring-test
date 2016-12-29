@@ -13,12 +13,12 @@ class RandomValueGeneratorItSpec extends Specification {
   "The library api" should {
     "provide an action to select values from a given static `List` randomly" in new WithTestServices(testConfig) {
       val testCase = for {
-        statics <- StaticData(List("Luke", "Boba", "Yoda", "Anakin", "Han", "C3PO")).lift
-        result  <- GetTestCase { _ =>
+        statics <- staticData("Luke", "Boba", "Yoda", "Anakin", "Han", "C3PO")
+        result  <- testGet { _ =>
           val uri = s"/hello/${statics()}"
 
           |+|(uri)
-        }.lift
+        }
       } yield result
 
       checkAndLog(testCase.runCase(testConfig)) should beTrue
@@ -26,14 +26,14 @@ class RandomValueGeneratorItSpec extends Specification {
 
     "provide an action to create random `Int` and positive `Int` generators" in new WithTestServices(testConfig) {
       val testCase = for {
-        ints          <- IntData(Some(10)).lift
-        positiveInts  <- PositiveIntData().lift
-        result        <- GetTestCase { rand =>
+        ints          <- intData(Some(10))
+        positiveInts  <- positiveIntData()
+        result        <- testGet { rand =>
           val uri = s"/add/${ints()}/and/${ints()}"
           val params = rand.nextOptPair("offset", positiveInts)
 
           uri |+| params
-        }.lift
+        }
       } yield result
 
       checkAndLog(testCase.runCase(testConfig)) should beTrue
@@ -41,12 +41,12 @@ class RandomValueGeneratorItSpec extends Specification {
 
     "provide an action to create random `Double` generators" in new WithTestServices(testConfig) {
       val testCase = for {
-        doubles <- DoubleData(Some(10.0)).lift
-        result  <- GetTestCase { _ =>
+        doubles <- doubleData(Some(10.0))
+        result  <- testGet { _ =>
           val uri = s"/multiply/${doubles()}/and/${doubles()}"
 
           |+|(uri)
-        }.lift
+        }
       } yield result
 
       checkAndLog(testCase.runCase(testConfig)) should beTrue

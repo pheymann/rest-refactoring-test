@@ -33,12 +33,12 @@ class RandomDbSelectionItSpec extends Specification {
   "The library api" should {
     "provide an action to select randomly `String` values from a table in a database" in new WithTestServices(testConfig) {
       val testCase = for {
-        names   <- RetrieveStrings(3).fromDb("user_names", "id", "name")
-        result  <- GetTestCase { _ =>
+        names   <- retrieveStrings(3).fromDb("user_names", "id", "name")
+        result  <- testGet { _ =>
           val uri = s"/hello/${names()}"
 
           |+|(uri)
-        }.lift
+        }
       } yield result
 
       checkAndLog(testCase.runCase(testConfig)) should beTrue
@@ -46,13 +46,13 @@ class RandomDbSelectionItSpec extends Specification {
 
     "provide an action to select randomly `Int` values from a table in a database" in new WithTestServices(testConfig) {
       val testCase = for {
-        a <- RetrieveInts(3).fromDb("user_names", "id", "id")
-        b <- RetrieveInts(3).fromDb("user_names", "id", "id")
-        result  <- GetTestCase { _ =>
+        a <- retrieveInts(3).fromDb("user_names", "id", "id")
+        b <- retrieveInts(3).fromDb("user_names", "id", "id")
+        result  <- testGet { _ =>
           val uri = s"/add/${a()}/and/${b()}"
 
           |+|(uri)
-        }.lift
+        }
       } yield result
 
       checkAndLog(testCase.runCase(testConfig)) should beTrue
