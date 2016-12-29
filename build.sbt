@@ -1,7 +1,8 @@
 
 val commonSettings = Seq(
-  organization := "com.github.pheymann.rrt",
-  scalaVersion := "2.11.8"
+  organization := "com.github.pheymann",
+  scalaVersion := "2.11.8",
+  version      := "0.1.0"
 )
 
 lazy val `rest-refactoring-test-tool` = project.in(file("."))
