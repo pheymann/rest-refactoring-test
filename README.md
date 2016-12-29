@@ -17,7 +17,7 @@ val config = newConfig("my-test", "refactored-rest.com", 8080, "old-rest.com", 8
               .withRepetitions(100)
 
 val testCase = for {
-  userNames <- genStaticData(List("Luke", "Anakin", "Yoda"))
+  userNames <- genStaticData("Luke", "Anakin", "Yoda")
   ages      <- genInts(900)
   result    <- testGet {
     // selects randomly one name out of the static list
