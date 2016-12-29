@@ -2,7 +2,6 @@ package com.github.pheymann.rrtt
 
 import akka.http.scaladsl.model.HttpResponse
 import akka.stream.ActorMaterializer
-import com.github.pheymann.rrtt.TestRunner.GetRequest
 import com.github.pheymann.rrtt.util.RandomUtil
 import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
 import org.specs2.mutable.Specification
@@ -21,7 +20,7 @@ class TestRunnerSpec extends Specification {
       |results are collected and returned.""".stripMargin in new WithActorSystem {
       implicit val materializer = ActorMaterializer()
 
-      val testRequest = GetRequest("--" |+| Map.empty)
+      val testRequest = "--" |+| Map.empty
 
       val testRest0 = () => Future.successful(
         testRequest,

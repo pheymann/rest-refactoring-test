@@ -1,7 +1,7 @@
 package com.github.pheymann.rrtt
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.{HttpResponse, HttpMethods}
+import akka.http.scaladsl.model.{HttpMethod, HttpMethods, HttpResponse}
 import akka.stream.{ActorMaterializer, Materializer}
 import com.github.pheymann.rrtt.io.RestService
 import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
@@ -15,13 +15,11 @@ object TestRunner {
 
   private val log = LoggerFactory.getLogger(getClass)
 
-  private[rrtt] def runSequential[R <: TestRequest](
-                                                    config: TestConfig,
-                                                    random: RandomUtil,
-                                                    logHint: String
-                                                   )
-                                                   (rest: () => Future[(R, HttpResponse, HttpResponse)])
-                                                   (implicit system: ActorSystem, materializer: Materializer): TestResult[R] = {
+  private[rrtt] def runSequential(config: TestConfig,
+                                  random: RandomUtil,
+                                  logHint: String)
+                                 (rest: () => Future[(RequestData, HttpResponse, HttpResponse)])
+                                 (implicit system: ActorSystem, materializer: Materializer): TestResult = {
     import system.dispatcher
 
     if (log.isInfoEnabled)
@@ -30,15 +28,15 @@ object TestRunner {
     var round = 0
     var failed = false
 
-    val comparisonsBuilder = List.newBuilder[(R, ComparisonResult)]
+    val comparisonsBuilder = List.newBuilder[(RequestData, ComparisonResult)]
 
     while (round < config.repetitions && !failed) {
       try {
         comparisonsBuilder += Await.result({
             for {
-              (request, actual, expected) <- rest()
+              (data, actual, expected) <- rest()
               comparison <- ResponseComparator.compareResponses(actual, expected, config)
-            } yield request -> comparison
+            } yield data -> comparison
           },
           config.timeout
         )
@@ -61,42 +59,30 @@ object TestRunner {
     }
   }
 
-  sealed trait TestRequest
-
-  final case class GetRequest(data: RequestData) extends TestRequest
-
-  def runGetSequential(test: GetEndpointTestCase, config: TestConfig, random: RandomUtil)
-                      (implicit system: ActorSystem): TestResult[GetRequest] = {
+  private def requestServices(method: HttpMethod, test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+                             (implicit system: ActorSystem): TestResult = {
     import system.dispatcher
 
     implicit val materializer = ActorMaterializer()
 
-    runSequential(config, random, "GET") { () =>
+    runSequential(config, random, method.toString) { () =>
       val data = test(random)
 
       for {
-        testResponse <- RestService.requestFromActual(HttpMethods.GET, data, config)
-        validationResponse <- RestService.requestFromExpected(HttpMethods.GET, data, config)
-      } yield (GetRequest(data), testResponse, validationResponse)
+        testResponse <- RestService.requestFromActual(method, data, config)
+        validationResponse <- RestService.requestFromExpected(method, data, config)
+      } yield (data, testResponse, validationResponse)
     }
   }
 
-  final case class PostRequest(data: RequestData) extends TestRequest
+  def runGetSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+                      (implicit system: ActorSystem): TestResult = {
+    requestServices(HttpMethods.GET, test, config, random)
+  }
 
-  def runPostSequential(test: PostEndpointTestCase, config: TestConfig, random: RandomUtil)
-                       (implicit system: ActorSystem): TestResult[PostRequest] = {
-    import system.dispatcher
-
-    implicit val materializer = ActorMaterializer()
-
-    runSequential(config, random, "POST") { () =>
-      val data = test(random)
-
-      for {
-        testResponse <- RestService.requestFromActual(HttpMethods.POST, data, config)
-        validationResponse <- RestService.requestFromExpected(HttpMethods.POST, data, config)
-      } yield (PostRequest(data), testResponse, validationResponse)
-    }
+  def runPostSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+                       (implicit system: ActorSystem): TestResult = {
+    requestServices(HttpMethods.POST, test, config, random)
   }
 
 }

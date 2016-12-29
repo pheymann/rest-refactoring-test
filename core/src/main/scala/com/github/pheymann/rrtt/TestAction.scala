@@ -1,7 +1,6 @@
 package com.github.pheymann.rrtt
 
 import cats.free.Free
-import com.github.pheymann.rrtt.TestRunner.{GetRequest, PostRequest}
 
 sealed trait TestAction[R]
 
@@ -45,12 +44,12 @@ object TestAction {
 
   final case class RetrieveStrings(size: Int) extends DbReadyTestAction[RandomValueGen[String]]
 
-  final case class GetTestCase(test: GetEndpointTestCase) extends TestAction[TestResult[GetRequest]]
+  final case class GetTestCase(test: EndpointTestCase) extends TestAction[TestResult]
 
-  def get(test: GetEndpointTestCase): Free[TestAction, TestResult[GetRequest]] = GetTestCase(test).lift
+  def get(test: EndpointTestCase): Free[TestAction, TestResult] = GetTestCase(test).lift
 
-  final case class PostTestCase(test: PostEndpointTestCase) extends TestAction[TestResult[PostRequest]]
+  final case class PostTestCase(test: EndpointTestCase) extends TestAction[TestResult]
 
-  def post(test: PostEndpointTestCase): Free[TestAction, TestResult[PostRequest]] = PostTestCase(test).lift
+  def post(test: EndpointTestCase): Free[TestAction, TestResult] = PostTestCase(test).lift
 
 }

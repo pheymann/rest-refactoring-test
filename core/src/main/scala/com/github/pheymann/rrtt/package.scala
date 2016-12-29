@@ -4,8 +4,7 @@ import com.github.pheymann.rrtt.util.RandomUtil
 
 package object rrtt extends RefactoringTest with RequestDataSyntax {
 
-  type GetEndpointTestCase = (RandomUtil => RequestData)
-  type PostEndpointTestCase = (RandomUtil => RequestData)
+  type EndpointTestCase = (RandomUtil => RequestData)
 
   def newConfig(
                  name: String,
