@@ -18,7 +18,7 @@ val config = newConfig("my-test", "refactored-rest.com", 8080, "old-rest.com", 8
               .withRepetitions(100)
 
 val testCase = for {
-  userNames <- StaticData(List("Luke", "Anakine", "Yoda")).lift
+  userNames <- StaticData(List("Luke", "Anakin", "Yoda")).lift
   ages      <- IntData(900).lift
   result    <- GetEndpoint {
     // selects randomly one name out of the static list
