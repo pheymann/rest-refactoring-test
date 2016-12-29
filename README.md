@@ -2,11 +2,11 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11)
 
 # rest-refactoring-test (rrt)
-Often you have to refactore or fix REST services which are not covered by extensive automated test and hard
+Often you have to refactor or fix REST services which are not covered by extensive automated test and are hard
 to test at all. But you want to make sure that these services haven't changed their behaviour after 
-your changes. 
+you have done your changes. 
 
-This library gives you the tool to do so fast and easy. You only describe the data you need
+This library gives you the tools to test your services fast and simple. You only describe the data you need
 and how the request is built and let the library do the work. See this small example:
 
 ```Scala
@@ -42,7 +42,7 @@ Besides the random generation or selection of values you are also able to load d
 e.g. if you need existing user ids.
 
 ## Get The Library
-You can get library by adding the following dependency:
+You can get the library by adding the following dependency:
 
 ```SBT
 libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.1.0-RC" % Test
@@ -50,7 +50,7 @@ libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.1.0-RC" % Test
 
 ## Dependecies
 This library is build with:
- - Free Mondas provided by [Cats](https://github.com/typelevel/cats) to build the library api
+ - Free Mondas provided by [cats](https://github.com/typelevel/cats) to build the library api
  - the http client by [akka-http](http://doc.akka.io/docs/akka-http/current/scala.html) for the REST calls
  - the db api from [scalike-jdbc](http://scalikejdbc.org/) for the database interactions
  
