@@ -27,7 +27,7 @@ val testCase = for {
     val params = Map("age" -> ages().toString)
     
     uri |+| params
-  }
+  }.lift
 } yield result
 
 assert(checkAndLog(testCase.runCase(config)))
