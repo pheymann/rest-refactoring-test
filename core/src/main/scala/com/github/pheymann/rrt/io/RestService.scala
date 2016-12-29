@@ -14,11 +14,11 @@ object RestService {
 
   private final val HttpPrefix = "http://"
 
-  private def createHeaders(headers: List[(String, String)]): List[HttpHeader] = {
+  private[io] def createHeaders(headers: List[(String, String)]): List[HttpHeader] = {
     headers.map {case (key, value) => RawHeader(key, value)}
   }
 
-  private def completeUriStr(host: String, port: Int, uri: String): String = {
+  private[io] def buildUriStr(host: String, port: Int, uri: String): String = {
     val tmpUri = s"$host:$port$uri"
 
     if (host.contains(HttpPrefix))
@@ -35,7 +35,7 @@ object RestService {
     import config._
     import data._
 
-    val completeUri = completeUriStr(host, port, uri)
+    val completeUri = buildUriStr(host, port, uri)
 
     Http().singleRequest(HttpRequest(
       method,
