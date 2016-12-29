@@ -13,7 +13,7 @@ class RandomValueGeneratorItSpec extends Specification {
   "The library api" should {
     "provide an action to select values from a given static `List` randomly" in new WithTestServices(testConfig) {
       val testCase = for {
-        statics <- staticData("Luke", "Boba", "Yoda", "Anakin", "Han", "C3PO")
+        statics <- genStaticData("Luke", "Boba", "Yoda", "Anakin", "Han", "C3PO")
         result  <- testGet { _ =>
           val uri = s"/hello/${statics()}"
 
@@ -26,8 +26,8 @@ class RandomValueGeneratorItSpec extends Specification {
 
     "provide an action to create random `Int` and positive `Int` generators" in new WithTestServices(testConfig) {
       val testCase = for {
-        ints          <- intData(Some(10))
-        positiveInts  <- positiveIntData()
+        ints          <- genInts(Some(10))
+        positiveInts  <- genPositiveInts()
         result        <- testGet { rand =>
           val uri = s"/add/${ints()}/and/${ints()}"
           val params = rand.nextOptPair("offset", positiveInts)
@@ -41,8 +41,8 @@ class RandomValueGeneratorItSpec extends Specification {
 
     "provide an action to create random `Long` generators" in new WithTestServices(testConfig) {
       val testCase = for {
-        longs         <- longData(Some(10))
-        positiveInts  <- positiveIntData()
+        longs         <- genLongs(Some(10))
+        positiveInts  <- genPositiveInts()
         result        <- testGet { rand =>
           val uri = s"/add/${longs()}/and/${longs()}"
           val params = rand.nextOptPair("offset", positiveInts)
@@ -56,7 +56,7 @@ class RandomValueGeneratorItSpec extends Specification {
 
     "provide an action to create random `Double` generators" in new WithTestServices(testConfig) {
       val testCase = for {
-        doubles <- doubleData(Some(10.0))
+        doubles <- genDoubles(Some(10.0))
         result  <- testGet { _ =>
           val uri = s"/multiply/${doubles()}/and/${doubles()}"
 

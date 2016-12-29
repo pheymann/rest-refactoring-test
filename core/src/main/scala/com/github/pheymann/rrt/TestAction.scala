@@ -140,31 +140,31 @@ trait TestActionSyntax {
     * @param values static `List` of values
     * @tparam A
     */
-  def staticData[A](values: A*): Free[TestAction, RandomValueGen[A]] = StaticData(values.toList).lift
+  def genStaticData[A](values: A*): Free[TestAction, RandomValueGen[A]] = StaticData(values.toList).lift
 
   /** Creates a `RandomValueGen` for `Int` values.
     *
     * @param maxOpt optional upper/lower bound of the values
     */
-  def intData(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = IntData(maxOpt).lift
+  def genInts(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = IntData(maxOpt).lift
 
   /** Creates a `RandomValueGen` for positive `Int` values.
     *
     * @param maxOpt optional upper bound of the values
     */
-  def positiveIntData(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = PositiveIntData(maxOpt).lift
+  def genPositiveInts(maxOpt: Option[Int] = None): Free[TestAction, RandomValueGen[Int]] = PositiveIntData(maxOpt).lift
 
   /** Creates a `RandomValueGen` for `Long` values.
     *
     * @param maxOpt optional upper/lower bound of the values
     */
-  def longData(maxOpt: Option[Long] = None): Free[TestAction, RandomValueGen[Long]] = LongData(maxOpt).lift
+  def genLongs(maxOpt: Option[Long] = None): Free[TestAction, RandomValueGen[Long]] = LongData(maxOpt).lift
 
   /** Creates a `RandomValueGen` for `Double` values.
     *
     * @param maxOpt optional upper/lower bound of the values
     */
-  def doubleData(maxOpt: Option[Double] = None): Free[TestAction, RandomValueGen[Double]] = DoubleData(maxOpt).lift
+  def genDoubles(maxOpt: Option[Double] = None): Free[TestAction, RandomValueGen[Double]] = DoubleData(maxOpt).lift
 
   /** Read `Int` values from database.
     *
