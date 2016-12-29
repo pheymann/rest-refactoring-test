@@ -41,13 +41,11 @@ Besides the random generation or selection of values you are also able to load d
 e.g. if you need existing user ids.
 
 ## Get The Library
-Until a release canidate or the first release is published you may import the project from Github:
+You can get library by adding the following dependency:
 
-```sbt
-lazy val rrt = RootProject(uri("git://github.com/pheymann/rest-refactoring-test.git"))
+```SBT
+libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.1.0-RC" % Test
 ```
-
-and add it to your service code via `dependsOn`.
 
 ## Dependecies
 This library is build with:
