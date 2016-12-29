@@ -1,4 +1,4 @@
-package com.github.pheymann.rrtt.util
+package com.github.pheymann.rrt.util
 
 import scala.util.Random
 

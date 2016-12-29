@@ -1,6 +1,6 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
-import com.github.pheymann.rrtt.TestAction.{DoubleData, GetTestCase, IntData, PositiveIntData, StaticData}
+import com.github.pheymann.rrt.TestAction.{DoubleData, GetTestCase, IntData, PositiveIntData, StaticData}
 import org.specs2.mutable.Specification
 
 class RandomValueGeneratorItSpec extends Specification {

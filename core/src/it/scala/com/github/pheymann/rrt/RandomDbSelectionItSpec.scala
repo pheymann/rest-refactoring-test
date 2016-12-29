@@ -1,8 +1,8 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
-import com.github.pheymann.rrtt.TestAction.{GetTestCase, RetrieveInts, RetrieveStrings}
-import com.github.pheymann.rrtt.io.DbService
-import com.github.pheymann.rrtt.io.DbService.MySQL
+import com.github.pheymann.rrt.TestAction.{GetTestCase, RetrieveInts, RetrieveStrings}
+import com.github.pheymann.rrt.io.DbService
+import com.github.pheymann.rrt.io.DbService.MySQL
 import org.specs2.mutable.Specification
 import scalikejdbc._
 

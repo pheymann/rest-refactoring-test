@@ -1,11 +1,11 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
 import cats.{Id, ~>}
 import TestAction._
 import akka.actor.ActorSystem
-import com.github.pheymann.rrtt.io.DbService
-import com.github.pheymann.rrtt.io.DbService.UndefinedDatabase
-import com.github.pheymann.rrtt.util.RandomUtil
+import com.github.pheymann.rrt.io.DbService
+import com.github.pheymann.rrt.io.DbService.UndefinedDatabase
+import com.github.pheymann.rrt.util.RandomUtil
 
 object TestActionInterpreter {
 

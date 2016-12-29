@@ -1,6 +1,6 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
-import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
 
 final case class TestResult(name: String,
 

@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.github.pheymann.rrtt.TestService" level="DEBUG" />
+    <logger name="com.github.pheymann.rrt.TestService" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

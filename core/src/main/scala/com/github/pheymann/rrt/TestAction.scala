@@ -1,4 +1,4 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
 import cats.free.Free
 

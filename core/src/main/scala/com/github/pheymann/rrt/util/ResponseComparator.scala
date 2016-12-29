@@ -1,9 +1,9 @@
-package com.github.pheymann.rrtt.util
+package com.github.pheymann.rrt.util
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.HttpResponse
 import akka.stream.Materializer
-import com.github.pheymann.rrtt.TestConfig
+import com.github.pheymann.rrt.TestConfig
 
 import scala.concurrent.Future
 

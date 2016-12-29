@@ -1,10 +1,10 @@
-package com.github.pheymann.rrtt.util
+package com.github.pheymann.rrt.util
 
 import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.stream.ActorMaterializer
-import com.github.pheymann.rrtt._
-import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
-import com.github.pheymann.rrtt.WithActorSystem
+import com.github.pheymann.rrt._
+import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.WithActorSystem
 import org.specs2.concurrent.ExecutionEnv
 import org.specs2.mutable.Specification
 

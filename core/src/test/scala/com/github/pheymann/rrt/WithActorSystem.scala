@@ -1,4 +1,4 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
 import akka.actor.ActorSystem
 import akka.testkit.TestKit

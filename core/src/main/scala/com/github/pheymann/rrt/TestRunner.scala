@@ -1,11 +1,11 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.{HttpMethod, HttpMethods, HttpResponse}
 import akka.stream.{ActorMaterializer, Materializer}
-import com.github.pheymann.rrtt.io.RestService
-import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
-import com.github.pheymann.rrtt.util.{RandomUtil, ResponseComparator}
+import com.github.pheymann.rrt.io.RestService
+import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.util.{RandomUtil, ResponseComparator}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.{Await, Future}
@@ -15,11 +15,11 @@ object TestRunner {
 
   private val log = LoggerFactory.getLogger(getClass)
 
-  private[rrtt] def runSequential(config: TestConfig,
-                                  random: RandomUtil,
-                                  logHint: String)
-                                 (rest: () => Future[(RequestData, HttpResponse, HttpResponse)])
-                                 (implicit system: ActorSystem, materializer: Materializer): TestResult = {
+  private[rrt] def runSequential(config: TestConfig,
+                                 random: RandomUtil,
+                                 logHint: String)
+                                (rest: () => Future[(RequestData, HttpResponse, HttpResponse)])
+                                (implicit system: ActorSystem, materializer: Materializer): TestResult = {
     import system.dispatcher
 
     if (log.isInfoEnabled)

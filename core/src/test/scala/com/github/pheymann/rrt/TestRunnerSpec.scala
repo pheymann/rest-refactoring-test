@@ -1,9 +1,9 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
 import akka.http.scaladsl.model.HttpResponse
 import akka.stream.ActorMaterializer
-import com.github.pheymann.rrtt.util.RandomUtil
-import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.util.RandomUtil
+import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
 import org.specs2.mutable.Specification
 
 import scala.concurrent.Future

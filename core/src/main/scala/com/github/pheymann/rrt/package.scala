@@ -1,8 +1,8 @@
 package com.github.pheymann
 
-import com.github.pheymann.rrtt.util.RandomUtil
+import com.github.pheymann.rrt.util.RandomUtil
 
-package object rrtt extends RefactoringTest with RequestDataSyntax {
+package object rrt extends RefactoringTest with RequestDataSyntax {
 
   type EndpointTestCase = (RandomUtil => RequestData)
 

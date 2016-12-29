@@ -1,6 +1,6 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
-import com.github.pheymann.rrtt.io.DbService.DatabaseType
+import com.github.pheymann.rrt.io.DbService.DatabaseType
 
 import scala.concurrent.duration._
 

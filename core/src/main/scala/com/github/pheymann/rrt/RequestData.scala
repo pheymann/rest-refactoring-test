@@ -1,4 +1,4 @@
-package com.github.pheymann.rrtt
+package com.github.pheymann.rrt
 
 final case class RequestData(uri: String, params: Map[String, String], bodyOpt: Option[String] = None)
 

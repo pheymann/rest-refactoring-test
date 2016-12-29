@@ -1,6 +1,6 @@
-package com.github.pheymann.rrtt.io
+package com.github.pheymann.rrt.io
 
-import com.github.pheymann.rrtt.DatabaseConfig
+import com.github.pheymann.rrt.DatabaseConfig
 import scalikejdbc._
 
 object DbService {

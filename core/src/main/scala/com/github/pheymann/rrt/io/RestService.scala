@@ -1,4 +1,4 @@
-package com.github.pheymann.rrtt.io
+package com.github.pheymann.rrt.io
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -6,7 +6,7 @@ import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.model._
 import akka.stream.Materializer
-import com.github.pheymann.rrtt.{RequestData, ServiceConfig, TestConfig}
+import com.github.pheymann.rrt.{RequestData, ServiceConfig, TestConfig}
 
 import scala.concurrent.Future
 
