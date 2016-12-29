@@ -56,4 +56,4 @@ This library is build with:
  - the db api from [scalike-jdbc](http://scalikejdbc.org/) for the database interactions
  
 ## Examples
-In this early phase you can only find some running examples in the [intregration tests](https://github.com/pheymann/rest-refactoring-test/tree/develop/core/src/it/scala/com/github/pheymann/rrtt).
+In this early phase you can only find some running examples in the [intregration tests](https://github.com/pheymann/rest-refactoring-test/tree/develop/core/src/it/scala/com/github/pheymann/rrt).
