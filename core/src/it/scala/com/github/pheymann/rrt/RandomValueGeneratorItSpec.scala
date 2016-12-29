@@ -39,6 +39,21 @@ class RandomValueGeneratorItSpec extends Specification {
       checkAndLog(testCase.runCase(testConfig)) should beTrue
     }
 
+    "provide an action to create random `Long` generators" in new WithTestServices(testConfig) {
+      val testCase = for {
+        longs         <- longData(Some(10))
+        positiveInts  <- positiveIntData()
+        result        <- testGet { rand =>
+          val uri = s"/add/${longs()}/and/${longs()}"
+          val params = rand.nextOptPair("offset", positiveInts)
+
+          uri |+| params
+        }
+      } yield result
+
+      checkAndLog(testCase.runCase(testConfig)) should beTrue
+    }
+
     "provide an action to create random `Double` generators" in new WithTestServices(testConfig) {
       val testCase = for {
         doubles <- doubleData(Some(10.0))

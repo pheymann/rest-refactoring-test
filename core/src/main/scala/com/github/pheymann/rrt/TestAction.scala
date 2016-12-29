@@ -74,9 +74,9 @@ object TestAction {
       * @param resultCol column holding the requested data
       * @return `DbReadyTestAction` wrapped in `FromDatabase`
       */
-    def fromDb(table:     String,
-               selectCol: String,
-               resultCol: String): Free[TestAction, R] = FromDatabase(table, selectCol, resultCol, action).lift
+    def from(table:     String,
+             selectCol: String,
+             resultCol: String): Free[TestAction, R] = FromDatabase(table, selectCol, resultCol, action).lift
 
   }
 
@@ -137,7 +137,7 @@ trait TestActionSyntax {
   /** Creates a `RandomValueGen` for a `List` of static values. The generator will
     * randomly select an element from the `List` on call.
     *
-    * @param data static `List` of values
+    * @param values static `List` of values
     * @tparam A
     */
   def staticData[A](values: A*): Free[TestAction, RandomValueGen[A]] = StaticData(values.toList).lift
