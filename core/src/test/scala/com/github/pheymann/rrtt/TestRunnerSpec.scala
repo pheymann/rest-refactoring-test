@@ -21,7 +21,7 @@ class TestRunnerSpec extends Specification {
       |results are collected and returned.""".stripMargin in new WithActorSystem {
       implicit val materializer = ActorMaterializer()
 
-      val testRequest = GetRequest("--", Map.empty)
+      val testRequest = GetRequest("--" |+| Map.empty)
 
       val testRest0 = () => Future.successful(
         testRequest,

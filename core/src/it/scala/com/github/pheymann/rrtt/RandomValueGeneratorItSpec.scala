@@ -17,7 +17,7 @@ class RandomValueGeneratorItSpec extends Specification {
         result  <- GetTestCase { _ =>
           val uri = s"/hello/${statics()}"
 
-          (uri, Map.empty[String, String])
+          uri |+| Map.empty[String, String]
         }.lift
       } yield result
 
@@ -32,7 +32,7 @@ class RandomValueGeneratorItSpec extends Specification {
           val uri = s"/add/${ints()}/and/${ints()}"
           val params = rand.nextOptPair("offset", positiveInts)
 
-          (uri, params)
+          uri |+| params
         }.lift
       } yield result
 
@@ -45,7 +45,7 @@ class RandomValueGeneratorItSpec extends Specification {
         result  <- GetTestCase { _ =>
           val uri = s"/multiply/${doubles()}/and/${doubles()}"
 
-          (uri, Map.empty[String, String])
+          uri |+| Map.empty[String, String]
         }.lift
       } yield result
 

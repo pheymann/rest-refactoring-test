@@ -2,10 +2,10 @@ package com.github.pheymann
 
 import com.github.pheymann.rrtt.util.RandomUtil
 
-package object rrtt extends RefactoringTest {
+package object rrtt extends RefactoringTest with RequestDataSyntax {
 
-  type GetEndpointTestCase = (RandomUtil => (String, Map[String, String]))
-  type PostEndpointTestCase = (RandomUtil => (String, Map[String, String], String))
+  type GetEndpointTestCase = (RandomUtil => RequestData)
+  type PostEndpointTestCase = (RandomUtil => RequestData)
 
   def newConfig(
                  name: String,

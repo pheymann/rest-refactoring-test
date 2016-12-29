@@ -1,7 +1,7 @@
 package com.github.pheymann.rrtt
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.HttpResponse
+import akka.http.scaladsl.model.{HttpResponse, HttpMethods}
 import akka.stream.{ActorMaterializer, Materializer}
 import com.github.pheymann.rrtt.io.RestService
 import com.github.pheymann.rrtt.util.ResponseComparator.ComparisonResult
@@ -63,7 +63,7 @@ object TestRunner {
 
   sealed trait TestRequest
 
-  final case class GetRequest(uri: String, params: Map[String, String]) extends TestRequest
+  final case class GetRequest(data: RequestData) extends TestRequest
 
   def runGetSequential(test: GetEndpointTestCase, config: TestConfig, random: RandomUtil)
                       (implicit system: ActorSystem): TestResult[GetRequest] = {
@@ -72,16 +72,16 @@ object TestRunner {
     implicit val materializer = ActorMaterializer()
 
     runSequential(config, random, "GET") { () =>
-      val (uri, params) = test(random)
+      val data = test(random)
 
       for {
-        testResponse <- RestService.getFromActual(uri, params, config)
-        validationResponse <- RestService.getFromExpected(uri, params, config)
-      } yield (GetRequest(uri, params), testResponse, validationResponse)
+        testResponse <- RestService.requestFromActual(HttpMethods.GET, data, config)
+        validationResponse <- RestService.requestFromExpected(HttpMethods.GET, data, config)
+      } yield (GetRequest(data), testResponse, validationResponse)
     }
   }
 
-  final case class PostRequest(uri: String, params: Map[String, String], body: String) extends TestRequest
+  final case class PostRequest(data: RequestData) extends TestRequest
 
   def runPostSequential(test: PostEndpointTestCase, config: TestConfig, random: RandomUtil)
                        (implicit system: ActorSystem): TestResult[PostRequest] = {
@@ -90,12 +90,12 @@ object TestRunner {
     implicit val materializer = ActorMaterializer()
 
     runSequential(config, random, "POST") { () =>
-      val (uri, params, body) = test(random)
+      val data = test(random)
 
       for {
-        testResponse <- RestService.postFromActual(uri, params, body, config)
-        validationResponse <- RestService.postFromExpected(uri, params, body, config)
-      } yield (PostRequest(uri, params, body), testResponse, validationResponse)
+        testResponse <- RestService.requestFromActual(HttpMethods.POST, data, config)
+        validationResponse <- RestService.requestFromExpected(HttpMethods.POST, data, config)
+      } yield (PostRequest(data), testResponse, validationResponse)
     }
   }
 

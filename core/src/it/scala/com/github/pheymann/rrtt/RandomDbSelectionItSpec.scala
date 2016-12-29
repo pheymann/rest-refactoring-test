@@ -37,7 +37,7 @@ class RandomDbSelectionItSpec extends Specification {
         result  <- GetTestCase { _ =>
           val uri = s"/hello/${names()}"
 
-          (uri, Map.empty[String, String])
+          uri |+| Map.empty[String, String]
         }.lift
       } yield result
 
@@ -51,7 +51,7 @@ class RandomDbSelectionItSpec extends Specification {
         result  <- GetTestCase { _ =>
           val uri = s"/add/${a()}/and/${b()}"
 
-          (uri, Map.empty[String, String])
+          uri |+| Map.empty[String, String]
         }.lift
       } yield result
 
