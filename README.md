@@ -11,23 +11,22 @@ and how the request is built and let the library do the work. See this small exa
 
 ```Scala
 import com.github.pheymann.rrt._
-import com.github.pheymann.rrt.TestAction._
 
 // GET /rest/hello/:name?age: Int
 val config = newConfig("my-test", "refactored-rest.com", 8080, "old-rest.com", 8081)
               .withRepetitions(100)
 
 val testCase = for {
-  userNames <- StaticData(List("Luke", "Anakin", "Yoda")).lift
-  ages      <- IntData(900).lift
-  result    <- GetEndpoint {
+  userNames <- genStaticData(List("Luke", "Anakin", "Yoda"))
+  ages      <- genInts(900)
+  result    <- testGet {
     // selects randomly one name out of the static list
     val uri = s"/rest/hello/${userNames()}"
     // generates a random `Int` between 0 and 900
     val params = Map("age" -> ages().toString)
     
     uri |+| params
-  }.lift
+  }
 } yield result
 
 assert(checkAndLog(testCase.runCase(config)))
@@ -45,8 +44,10 @@ e.g. if you need existing user ids.
 You can get the library by adding the following dependency:
 
 ```SBT
-libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.1.0-RC" % Test
+libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.2.0-RC" % Test
 ```
+
+The library is current built for Scala 2.11.
 
 ## Dependecies
 This library is build with:
