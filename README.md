@@ -9,6 +9,9 @@ This library gives you the tool to do so fast and easy. You only describe the da
 and how the request is built and let the library do the work. See this small example:
 
 ```Scala
+import com.github.pheymann.rrt._
+import com.github.pheymann.rrt.TestAction._
+
 // GET /rest/hello/:name?age: Int
 val config = newConfig("my-test", "refactored-rest.com", 8080, "old-rest.com", 8081)
               .withRepetitions(100)
@@ -22,7 +25,7 @@ val testCase = for {
     // generates a random `Int` between 0 and 900
     val params = Map("age" -> ages().toString)
     
-    (uri, params)
+    uri |+| params
   }
 } yield result
 
