@@ -27,6 +27,7 @@ object TestRunner {
 
     var round = 0
     var failed = false
+    var printedPercentage = -1
 
     val comparisonsBuilder = List.newBuilder[(RequestData, ComparisonResult)]
 
@@ -40,6 +41,8 @@ object TestRunner {
           },
           config.timeout
         )
+
+        printedPercentage = ProgressOutput.printProgress(round, config.repetitions, printedPercentage)
       } catch {
         case NonFatal(cause) =>
           log.error(s"[$logHint] failure in round = $round for ${config.name}", cause)

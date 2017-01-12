@@ -34,4 +34,6 @@ object Dependencies {
     h2Driver % IntegrationTest
   )
 
+  val play = Seq(specs2 % Test)
+
 }
