@@ -8,12 +8,19 @@ trait RequestDataSyntax {
 
   implicit class RequestDataBuilder(uri: String) {
 
-    /** Creates a `RequestData` instance from the uri and params.
+    /** Creates a `RequestData` instance from the uri and params without a body.
       *
       * @param params query parameters
       * @return RequestData
       */
     def |+|(params: Map[String, String]): RequestData = RequestData(uri, params)
+
+    /** Creates a `RequestData` instance from the uri and body without params.
+      *
+      * @param body request body (entity)
+      * @return RequestData
+      */
+    def |+|(body: String): RequestData = RequestData(uri, Map.empty, Some(body))
 
   }
 
