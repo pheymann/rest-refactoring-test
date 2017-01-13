@@ -30,7 +30,7 @@ val config = newConfig("my-test", "refactored-rest.com", 8080, "old-rest.com", 8
 val testCase = for {
   userNames <- genStaticData("Luke", "Anakin", "Yoda")
   ages      <- genInts(900)
-  result    <- testGet {
+  result    <- testGet { _ =>
     // selects randomly one name out of the static list
     val uri = s"/rest/hello/${userNames()}"
     // generates a random `Int` between 0 and 900
@@ -51,14 +51,26 @@ then compare the responses and log possible differences. This step is repeated 1
 Besides the random generation or selection of values you are also able to load data from a database,
 e.g. if you need existing user ids.
 
-## Get The Library
-You can get the library by adding the following dependency:
+## Get The Libraries
+You can get the core library by adding the following dependency:
 
 ```SBT
-libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.2.0-RC" % Test
+libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.3.x-RC" % Test
 ```
 
-The library is current built for Scala 2.11.
+Furthermore you can add a [Play](https://www.playframework.com/) dependency which adds the ability to 
+read Play database configs.
+
+```SBT
+libraryDependencies += "com.github.pheymann" %% "rrt-play" % "0.3.x-RC" % Test
+```
+
+Both libs are built for Scala 2.11. And there is a SBT plugin to add a `rrt` task to execute rest refactoring 
+tests which are implemented within some Unit test framework as Specs or Scalatest.
+
+```SBT
+addSbtPlugin("com.github.pheymann" % "rrt-plugin" % "0.3.x-RC")
+```
 
 ## Dependecies
 This library is build with:
