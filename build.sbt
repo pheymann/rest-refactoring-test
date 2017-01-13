@@ -1,8 +1,9 @@
+import sbt.Keys._
 
 val commonSettings = Seq(
   organization := "com.github.pheymann",
   scalaVersion := "2.11.8",
-  version      := "0.3.0-RC-SNAPSHOT",
+  version      := "0.3.0-RC",
 
   sonatypeProfileName := "pheymann",
   pomExtra in Global := {
@@ -51,3 +52,12 @@ lazy val play = project.in(file("play"))
     libraryDependencies ++= Dependencies.play
   )
   .dependsOn(core)
+
+lazy val plugin = project.in(file("plugin"))
+  .settings(commonSettings)
+  .settings(
+    name := "rrt-plugin",
+    scalaVersion  := "2.10.6",
+    scalacOptions += "-target:jvm-1.7",
+    sbtPlugin := true
+  )
