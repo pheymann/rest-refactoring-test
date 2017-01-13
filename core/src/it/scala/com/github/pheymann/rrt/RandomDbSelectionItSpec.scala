@@ -46,7 +46,7 @@ class RandomDbSelectionItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
 
     "provide an action to select randomly `Int` values from a table in a database" in new WithTestServices(testConfig) {
@@ -60,7 +60,7 @@ class RandomDbSelectionItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
 
     "provide an action to select randomly `Long` values from a table in a database" in new WithTestServices(testConfig) {
@@ -74,7 +74,7 @@ class RandomDbSelectionItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
 
     "provide an action to select randomly `Double` values from a table in a database" in new WithTestServices(testConfig) {
@@ -88,7 +88,7 @@ class RandomDbSelectionItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
   }
 

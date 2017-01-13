@@ -2,12 +2,11 @@ package com.github.pheymann.rrt
 
 import akka.actor.ActorSystem
 import cats.free.Free
-import org.slf4j.LoggerFactory
 
 trait RefactoringTest {
 
-  def runTestCase(testCase: Free[TestAction, TestResult], config: TestConfig)
-                 (implicit system: ActorSystem): TestResult = {
+  def runSequential(testCase: Free[TestAction, TestResult], config: TestConfig)
+                   (implicit system: ActorSystem): TestResult = {
     testCase.foldMap(TestActionInterpreter.interpreter(config))
   }
 
@@ -16,20 +15,17 @@ trait RefactoringTest {
   }
 
   private final val PrintPrefix = "  "
-  private val log = LoggerFactory.getLogger(getClass)
 
   def prettyLog(result: TestResult): Unit = {
-    if (log.isInfoEnabled) {
-      log.info(s"ran ${result.name} ${if (result.successful) "succeeded" else "failed"}:")
-      log.info(s"$PrintPrefix succeeded tries: ${result.successfulTries}")
-      log.info(s"$PrintPrefix failed tries:    ${result.failedTries}")
+    println(s"\nran ${result.name} ${if (result.successful) Console.GREEN + "succeeded" else Console.RED + "failed"}:" + Console.WHITE)
+    println(Console.CYAN + s"$PrintPrefix succeeded tries: ${result.successfulTries}")
 
-      if (!result.successful) {
-        log.info(result.comparisons.mkString("\n"))
-      }
-      log.info("")
-      log.info("")
+    print(s"$PrintPrefix failed tries:    ${result.failedTries}\n" + Console.WHITE)
+
+    if (!result.successful) {
+      print(result.comparisons.mkString("\n"))
     }
+    print("\n\n")
   }
 
   def checkAndLog(result: TestResult): Boolean = {
@@ -39,8 +35,8 @@ trait RefactoringTest {
 
   implicit class RefactoringTestRun(testCase: Free[TestAction, TestResult]) {
 
-    def runCase(config: TestConfig)
-               (implicit system: ActorSystem): TestResult = runTestCase(testCase, config)
+    def runSeq(config: TestConfig)
+              (implicit system: ActorSystem): TestResult = runSequential(testCase, config)
 
   }
 

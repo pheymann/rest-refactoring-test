@@ -58,7 +58,7 @@ object ProgressOutput {
 
   def printProgress(round: Int, repetitions: Int, printedPercentage: Int): Int = {
     roundToPercentage(round, repetitions, printedPercentage).fold(printedPercentage) { case (percentage, line) =>
-      println(line)
+      print(line + "\r")
       percentage
     }
   }

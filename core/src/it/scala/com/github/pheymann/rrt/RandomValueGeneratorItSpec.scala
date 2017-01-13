@@ -21,7 +21,7 @@ class RandomValueGeneratorItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
 
     "provide an action to create random `Int` and positive `Int` generators" in new WithTestServices(testConfig) {
@@ -36,7 +36,7 @@ class RandomValueGeneratorItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
 
     "provide an action to create random `Long` generators" in new WithTestServices(testConfig) {
@@ -51,7 +51,7 @@ class RandomValueGeneratorItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
 
     "provide an action to create random `Double` generators" in new WithTestServices(testConfig) {
@@ -64,7 +64,7 @@ class RandomValueGeneratorItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runCase(testConfig)) should beTrue
+      checkAndLog(testCase.runSeq(testConfig)) should beTrue
     }
   }
 

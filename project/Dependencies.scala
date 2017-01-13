@@ -26,9 +26,8 @@ object Dependencies {
     scalikeJdbc % Compile,
     akkaHttp % Compile,
 
-    slf4j % Compile,
-
-    logback % "test;it",
+    slf4j % "it",
+    logback % "it",
     specs2  % "test;it",
     akkaTest % "test;it",
     h2Driver % IntegrationTest
