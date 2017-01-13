@@ -5,11 +5,11 @@ import sbt.{Defaults, _}
 
 package object plugin {
 
-  val RefactoringTest = config("rt") extend Test
+  val RestRefactoringTest = config("rrt") extend Test
 
-  lazy val playRtSettings = inConfig(RefactoringTest)(Defaults.testSettings) ++ Seq(
-    scalaSource       in RefactoringTest := baseDirectory.value / "rt",
-    resourceDirectory in RefactoringTest := baseDirectory.value / "test-conf"
+  lazy val playRtSettings = inConfig(RestRefactoringTest)(Defaults.testSettings) ++ Seq(
+    scalaSource       in RestRefactoringTest := baseDirectory.value / "rrt",
+    resourceDirectory in RestRefactoringTest := baseDirectory.value / "test-conf"
   )
 
 }
