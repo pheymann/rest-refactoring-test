@@ -31,7 +31,7 @@ val commonSettings = Seq(
 
 lazy val `rest-refactoring-test-tool` = project.in(file("."))
   .settings(commonSettings)
-  .aggregate(core)
+  .aggregate(core, play, plugin)
 
 lazy val core = project.in(file("core"))
   .settings(commonSettings)
