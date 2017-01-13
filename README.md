@@ -1,5 +1,16 @@
 [![Build Status](https://travis-ci.org/pheymann/rest-refactoring-test.svg?branch=develop)](https://travis-ci.org/pheymann/rest-refactoring-test)
+
+**rrt-core**:
+
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11)
+
+**rrt-play**:
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-play_2.11)
+
+**rrt-plugin**:
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin_2.10/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin_2.10)
 
 # rest-refactoring-test (rrt)
 Often you have to refactor or fix REST services which are not covered by extensive automated test and are hard
