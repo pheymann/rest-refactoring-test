@@ -17,10 +17,10 @@ trait RefactoringTest {
   private final val PrintPrefix = "  "
 
   def prettyLog(result: TestResult): Unit = {
-    println(s"\nran ${result.name} ${if (result.successful) Console.GREEN + "succeeded" else Console.RED + "failed"}:" + Console.WHITE)
-    println(Console.CYAN + s"$PrintPrefix succeeded tries: ${result.successfulTries}")
+    println(s"\ntest case ${result.name} ${if (result.successful) Console.GREEN + "succeeded" else Console.RED + "failed"}:" + Console.WHITE)
+    println(Console.CYAN + s"$PrintPrefix successful tries: ${result.successfulTries}")
 
-    print(s"$PrintPrefix failed tries:    ${result.failedTries}\n" + Console.WHITE)
+    print(s"$PrintPrefix failed tries:     ${result.failedTries}\n" + Console.WHITE)
 
     if (!result.successful) {
       print(result.comparisons.mkString("\n"))
