@@ -24,7 +24,7 @@ and how the request is built and let the library do the work. See this small exa
 import com.github.pheymann.rrt._
 
 // GET /rest/hello/:name?age: Int
-val config = newConfig("my-test", "refactored-rest.com", 8080, "old-rest.com", 8081)
+val config = newConfig("my-test", ServiceConfig("refactored-rest.com", 8080), ServiceConfig("old-rest.com", 8081))
               .withRepetitions(100)
 
 val testCase = for {
@@ -41,6 +41,18 @@ val testCase = for {
 } yield result
 
 assert(checkAndLog(testCase.runCase(config)))
+```
+
+Output:
+
+```
+[GET] start my-test
+
+[####################] 100%
+
+test case my-test succeeded
+  succeeded tries: 100
+  failed trie:     0
 ```
 
 Here, we create a test for a *GET* endpoint `/rest/hello/:name` which is currently provided by the 
