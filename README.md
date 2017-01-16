@@ -1,15 +1,12 @@
 [![Build Status](https://travis-ci.org/pheymann/rest-refactoring-test.svg?branch=develop)](https://travis-ci.org/pheymann/rest-refactoring-test)
 
 **rrt-core**:
-
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11)
 
 **rrt-play**:
-
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-play_2.11)
 
 **rrt-plugin**:
-
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin_2.10/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin_2.10)
 
 # rest-refactoring-test (rrt)
@@ -67,21 +64,21 @@ e.g. if you need existing user ids.
 You can get the core library by adding the following dependency:
 
 ```SBT
-libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.3.x-RC" % Test
+libraryDependencies += "com.github.pheymann" %% "rrt-core" % "0.4.x-RC" % Test
 ```
 
 Furthermore you can add a [Play](https://www.playframework.com/) dependency which adds the ability to 
 read Play database configs.
 
 ```SBT
-libraryDependencies += "com.github.pheymann" %% "rrt-play" % "0.3.x-RC" % Test
+libraryDependencies += "com.github.pheymann" %% "rrt-play" % "0.4.x-RC" % Test
 ```
 
 Both libs are built for Scala 2.11. And there is a SBT plugin to add a `rrt` task to execute rest refactoring 
 tests which are implemented within some Unit test framework as Specs or Scalatest.
 
 ```SBT
-addSbtPlugin("com.github.pheymann" % "rrt-plugin" % "0.3.x-RC")
+addSbtPlugin("com.github.pheymann" % "rrt-plugin" % "0.4.x-RC")
 ```
 
 ## Dependecies
