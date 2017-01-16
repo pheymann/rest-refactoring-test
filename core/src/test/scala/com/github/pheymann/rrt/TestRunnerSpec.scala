@@ -20,7 +20,7 @@ class TestRunnerSpec extends Specification {
       |results are collected and returned.""".stripMargin in new WithActorSystem {
       implicit val materializer = ActorMaterializer()
 
-      val testRequest = |+|("--")
+      val testRequest: RequestData = "--"
 
       val testRest0 = () => Future.successful(
         testRequest,
@@ -49,7 +49,7 @@ class TestRunnerSpec extends Specification {
       val testRest = () => Future.failed(new IllegalArgumentException("expected"))
 
       TestRunner.runSequential(testConfig, RandomUtil, "TEST-GET")(testRest) should beEqualTo(
-        TestResult(testConfig.name, false, 0, 0, Nil)
+        TestResult(testConfig.name, false, 1, 0, Nil)
       )
     }
   }

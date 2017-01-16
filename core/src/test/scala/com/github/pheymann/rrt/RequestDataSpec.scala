@@ -15,7 +15,7 @@ class RequestDataSpec extends Specification {
       (uri |+| body) should beEqualTo(RequestData(uri, Map.empty, Some(body)))
       (uri |+| body |+| body) should beEqualTo(RequestData(uri, Map.empty, Some(body)))
 
-      |+|(uri) should beEqualTo(RequestData(uri, Map.empty))
+      uriToRequestData(uri) should beEqualTo(RequestData(uri, Map.empty))
     }
   }
 

@@ -51,15 +51,11 @@ object TestRunner {
     ProgressOutput.printProgress(config.repetitions, config.repetitions, printedPercentage)
     println("")
 
-    if (failed)
-      TestResult(config.name, !failed, 0, 0, Nil)
-    else {
-      val comparisons = comparisonsBuilder.result()
-      val failedComparisons = comparisons.filterNot(_._2.areEqual)
-      val failedTries = failedComparisons.length
+    val comparisons = comparisonsBuilder.result()
+    val failedComparisons = comparisons.filterNot(_._2.areEqual)
+    val failedTries = failedComparisons.length
 
-      TestResult(config.name, failedTries == 0, config.repetitions - failedTries, failedTries, failedComparisons)
-    }
+    TestResult(config.name, !failed && failedTries == 0, config.repetitions - failedTries, failedTries, failedComparisons)
   }
 
   private def requestServices(method: HttpMethod, test: EndpointTestCase, config: TestConfig, random: RandomUtil)

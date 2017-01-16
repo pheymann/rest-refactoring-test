@@ -1,10 +1,12 @@
 package com.github.pheymann.rrt
 
+import scala.language.implicitConversions
+
 final case class RequestData(uri: String, params: Map[String, String], bodyOpt: Option[String] = None)
 
 trait RequestDataSyntax {
 
-  def |+|(uri: String): RequestData = RequestData(uri, Map.empty)
+  implicit def uriToRequestData(uri: String): RequestData = RequestData(uri, Map.empty)
 
   implicit class RequestDataBuilder(uri: String) {
 

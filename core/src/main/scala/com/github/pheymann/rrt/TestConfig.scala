@@ -15,7 +15,7 @@ final case class TestConfig(
                              dbConfigOpt: Option[DatabaseConfig] = None,
 
                              repetitions: Int = 1,
-                             timeout: FiniteDuration = Long.MaxValue.nanoseconds
+                             timeout: FiniteDuration = 21400000.seconds
                            ) {
 
   /** Adds standard headers to all requests.

@@ -40,9 +40,7 @@ class RandomDbSelectionItSpec extends Specification {
       val testCase = for {
         names   <- retrieveStrings(3).from("user_names", "id", "name")
         result  <- testGet { _ =>
-          val uri = s"/hello/${names()}"
-
-          |+|(uri)
+          s"/hello/${names()}"
         }
       } yield result
 
@@ -54,9 +52,7 @@ class RandomDbSelectionItSpec extends Specification {
         a <- retrieveInts(3).from("user_names", "id", "id")
         b <- retrieveInts(3).from("user_names", "id", "id")
         result  <- testGet { _ =>
-          val uri = s"/add/${a()}/and/${b()}"
-
-          |+|(uri)
+          s"/add/${a()}/and/${b()}"
         }
       } yield result
 
@@ -68,9 +64,7 @@ class RandomDbSelectionItSpec extends Specification {
         a <- retrieveLongs(3).from("user_names", "id", "id")
         b <- retrieveLongs(3).from("user_names", "id", "id")
         result  <- testGet { _ =>
-          val uri = s"/add/${a()}/and/${b()}"
-
-          |+|(uri)
+          s"/add/${a()}/and/${b()}"
         }
       } yield result
 
@@ -82,9 +76,7 @@ class RandomDbSelectionItSpec extends Specification {
         a <- retrieveDoubles(3).from("user_names", "id", "score")
         b <- retrieveDoubles(3).from("user_names", "id", "score")
         result  <- testGet { _ =>
-          val uri = s"/multiply/${a()}/and/${b()}"
-
-          |+|(uri)
+          s"/multiply/${a()}/and/${b()}"
         }
       } yield result
 

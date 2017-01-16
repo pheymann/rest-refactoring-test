@@ -15,9 +15,7 @@ class RandomValueGeneratorItSpec extends Specification {
       val testCase = for {
         statics <- genStaticData("Luke", "Boba", "Yoda", "Anakin", "Han", "C3PO")
         result  <- testGet { _ =>
-          val uri = s"/hello/${statics()}"
-
-          |+|(uri)
+          s"/hello/${statics()}"
         }
       } yield result
 
@@ -58,9 +56,7 @@ class RandomValueGeneratorItSpec extends Specification {
       val testCase = for {
         doubles <- genDoubles(Some(10.0))
         result  <- testGet { _ =>
-          val uri = s"/multiply/${doubles()}/and/${doubles()}"
-
-          |+|(uri)
+          s"/multiply/${doubles()}/and/${doubles()}"
         }
       } yield result
 
