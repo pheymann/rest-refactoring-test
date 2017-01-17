@@ -37,7 +37,7 @@ val testCase = for {
   }
 } yield result
 
-assert(checkAndLog(testCase.runCase(config)))
+assert(checkAndLog(testCase.runSeq(config)))
 ```
 
 Output:
