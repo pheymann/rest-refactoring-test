@@ -6,7 +6,8 @@ package object rrt  extends RefactoringTest
                     with    RequestDataSyntax
                     with    TestActionSyntax
                     with    RandomSyntax
-                    with    DataGeneratorSyntax {
+                    with    DataGeneratorSyntax
+                    with    ParamsBuilderSyntax {
 
   type EndpointTestCase = (RandomUtil => RequestData)
 
