@@ -33,9 +33,8 @@ trait RefactoringTest {
     print(s"$PrintPrefix failed tries:     ${result.failedTries}\n" + Console.WHITE)
 
     if (!result.successful) {
-      print(result.comparisons.map((toLog _).tupled).mkString("----------"))
+      println(result.comparisons.map((toLog _).tupled).mkString("\n\n"))
     }
-    print("\n\n")
   }
 
   def checkAndLog(result: TestResult): Boolean = {
