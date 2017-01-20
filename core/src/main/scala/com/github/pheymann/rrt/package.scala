@@ -1,9 +1,9 @@
 package com.github.pheymann
 
 import com.github.pheymann.rrt.TestAction.RandomValueGen
-import com.github.pheymann.rrt.util.RandomUtil
+import com.github.pheymann.rrt.util.{RandomSyntax, RandomUtil}
 
-package object rrt extends RefactoringTest with RequestDataSyntax with TestActionSyntax {
+package object rrt extends RefactoringTest with RequestDataSyntax with TestActionSyntax with RandomSyntax {
 
   type EndpointTestCase = (RandomUtil => RequestData)
 
@@ -21,11 +21,24 @@ package object rrt extends RefactoringTest with RequestDataSyntax with TestActio
     )
   }
 
+  implicit class DataGeneratorToOpt[A](gen: RandomValueGen[A]) {
+
+    def toOpt(implicit rand: RandomUtil): Option[A] = {
+      if (randBoolean)
+        Some(gen())
+      else
+        None
+    }
+
+  }
+
   implicit class DataGeneratorToSeq[A](gen: RandomValueGen[A]) {
 
-    def toSeq(size: Int): Seq[A] = (0 to size).map(_ => gen())
-    def toSeq(maxSize: Int, rand: RandomUtil): Seq[A] = (0 to rand.nextPositiveInt(maxSize)).map(_ => gen())
-    def toNonEmptySeq(maxSize: Int, rand: RandomUtil): Seq[A] = (0 to rand.nextPositiveInt(maxSize)).map(_ => gen())
+    def toSeq(maxSize: Int)
+             (implicit rand: RandomUtil): Seq[A] = (0 to rand.nextPositiveInt(maxSize)).map(_ => gen())
+
+    def toNonEmptySeq(maxSize: Int)
+                     (implicit rand: RandomUtil): Seq[A] = (0 to rand.nextPositiveInt(maxSize)).map(_ => gen())
 
   }
 
