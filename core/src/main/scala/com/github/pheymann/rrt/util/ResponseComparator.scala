@@ -46,8 +46,8 @@ object ResponseComparator {
       actualCleanedBody   = cleanBody(actualBody, config.bodyRemovals)
       expectedCleanedBody = cleanBody(expectedBody, config.bodyRemovals)
     } yield {
-      if (actualBody != expectedBody)
-        Some("body", actualBody, expectedBody)
+      if (actualCleanedBody != expectedCleanedBody)
+        Some("body", actualCleanedBody, expectedCleanedBody)
       else
         None
     }
