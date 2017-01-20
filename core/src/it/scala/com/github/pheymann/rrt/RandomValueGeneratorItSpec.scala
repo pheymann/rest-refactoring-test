@@ -26,9 +26,9 @@ class RandomValueGeneratorItSpec extends Specification {
       val testCase = for {
         ints          <- genInts(Some(10))
         positiveInts  <- genPositiveInts()
-        result        <- testGet { rand =>
+        result        <- testGet { implicit rand =>
           val uri = s"/add/${ints()}/and/${ints()}"
-          val params = rand.nextOptPair("offset", positiveInts)
+          val params = Params().addOpt("offset", positiveInts)
 
           uri |+| params
         }
@@ -41,9 +41,9 @@ class RandomValueGeneratorItSpec extends Specification {
       val testCase = for {
         longs         <- genLongs(Some(10))
         positiveInts  <- genPositiveInts()
-        result        <- testGet { rand =>
+        result        <- testGet { implicit rand =>
           val uri = s"/add/${longs()}/and/${longs()}"
-          val params = rand.nextOptPair("offset", positiveInts)
+          val params = Params().addOpt("offset", positiveInts)
 
           uri |+| params
         }
