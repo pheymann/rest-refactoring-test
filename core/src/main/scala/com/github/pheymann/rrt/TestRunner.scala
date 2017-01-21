@@ -27,7 +27,12 @@ object TestRunner {
 
     val comparisonsBuilder = List.newBuilder[(RequestData, ComparisonResult)]
 
+    // time window for a single request in milliseconds
+    val requestWindowOpt = config.requestPerSecondOpt.map(r => ((1.0 / r) * 1000.0).toLong)
+
     while (round < config.repetitions && !failed) {
+      val t0 = System.currentTimeMillis()
+
       try {
         comparisonsBuilder += Await.result({
             for {
@@ -46,6 +51,13 @@ object TestRunner {
           failed = true
       }
       round += 1
+
+      requestWindowOpt.foreach { window =>
+        val tDiff = System.currentTimeMillis() - t0
+
+        if (tDiff < window)
+          Thread.sleep(window - tDiff)
+      }
     }
 
     ProgressOutput.printProgress(config.repetitions, config.repetitions, printedPercentage)

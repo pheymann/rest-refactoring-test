@@ -15,6 +15,7 @@ final case class TestConfig(
                              dbConfigOpt: Option[DatabaseConfig] = None,
 
                              repetitions: Int = 1,
+                             requestPerSecondOpt: Option[Int] = None,
                              timeout: FiniteDuration = 21400000.seconds
                            ) {
 
@@ -52,6 +53,13 @@ final case class TestConfig(
     * @return updated config
     */
   def withRepetitions(repetitions: Int): TestConfig = this.copy(repetitions = repetitions)
+
+  /** Sets the maximum number of requests per second.
+    *
+    * @param requestPerSecond maximum number of requests per second
+    * @return updated config
+    */
+  def withThrottling(requestPerSecond: Int): TestConfig = this.copy(requestPerSecondOpt = Some(requestPerSecond))
 
   /** Sets timeout to a new value (default `Long.MaxValue` nanoseconds).
     *
