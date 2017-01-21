@@ -3,10 +3,8 @@
 
 **rrt-core**:
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11)
-
 **rrt-play**:
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-play_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-play_2.11)
-
 **rrt-plugin**:
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin)
 
