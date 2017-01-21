@@ -29,7 +29,7 @@ val config = newConfig("my-test", ServiceConfig("refactored-rest.com", 8080), Se
 
 val testCase = for {
   userNames <- genStaticData("Luke", "Anakin", "Yoda")
-  ages      <- genInts(900)
+  ages      <- genInts(Some(900))
   result    <- testGet { _ =>
     // selects randomly one name out of the static list
     val uri = s"/rest/hello/${userNames()}"
