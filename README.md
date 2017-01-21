@@ -63,6 +63,8 @@ then compare the responses and log possible differences. This step is repeated 1
 Besides the random generation or selection of values you are also able to load data from a database,
 e.g. if you need existing user ids.
 
+For more information have a look into the [Wiki](https://github.com/pheymann/rest-refactoring-test/wiki).
+
 ## Get The Libraries
 You can get the core library by adding the following dependency:
 
