@@ -75,12 +75,31 @@ read Play database configs.
 libraryDependencies += "com.github.pheymann" %% "rrt-play" % "1.0.x" % Test
 ```
 
-Both libs are built for Scala 2.11. And there is a SBT plugin to add a `rrt` task to execute rest refactoring 
-tests which are implemented within some Unit test framework as Specs or Scalatest.
+Both libs are built for Scala *2.11.x*.
+
+## SBT Plugin
+If you want to have a `rrt` task and don't want to manually define all modules you need you can use the
+SBT plugin. It is built for SBT version *0.13.x* and can be used by adding the following line to your
+`plugins.sbt` file:
+
 
 ```SBT
 addSbtPlugin("com.github.pheymann" % "rrt-plugin" % "1.0.x")
 ```
+
+With that you can add the dependencies as follows:
+
+```SBT
+import com.github.pheymann.rrt.plugin._
+
+libraryDependencies ++= Seq(
+  rrtCore % RestRefactoringTest,
+  rrtPlay % RestRefactoringTest
+)
+```
+
+And run your refactoring tests with the following task: `rrt:test`. As this task extends `Test` you also have
+access to all sub-tasks.
 
 ## Dependecies
 This library is build with:
