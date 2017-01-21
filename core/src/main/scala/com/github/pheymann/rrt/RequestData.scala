@@ -17,6 +17,13 @@ trait RequestDataSyntax {
       */
     def |+|(params: Map[String, String]): RequestData = RequestData(uri, params)
 
+    /** Creates a `RequestData` instance from the uri and params without a body.
+      *
+      * @param builder builder for params
+      * @return RequestData
+      */
+    def |+|(builder: ParamsBuilder): RequestData = RequestData(uri, builder.params.result())
+
     /** Creates a `RequestData` instance from the uri and body without params.
       *
       * @param body request body (entity)

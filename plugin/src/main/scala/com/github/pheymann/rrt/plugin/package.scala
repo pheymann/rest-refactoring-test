@@ -12,7 +12,7 @@ package object plugin {
     resourceDirectory in RestRefactoringTest := baseDirectory.value / "test-conf"
   )
 
-  val rrtVersion = "1.0.1"
+  val rrtVersion = "2.0.0"
 
   val rrtCore = "com.github.pheymann" %% "rrt-core" % rrtVersion
   val rrtPlay = "com.github.pheymann" %% "rrt-play" % rrtVersion
