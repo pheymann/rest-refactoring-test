@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.model.{HttpMethod, HttpMethods, HttpResponse}
 import akka.stream.{ActorMaterializer, Materializer}
 import com.github.pheymann.rrt.io.RestService
-import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.util.ResponseComparator.{BodyComparison, ComparisonResult}
 import com.github.pheymann.rrt.util.{RandomUtil, ResponseComparator}
 
 import scala.concurrent.{Await, Future}
@@ -12,7 +12,8 @@ import scala.util.control.NonFatal
 
 object TestRunner {
 
-  private[rrt] def runSequential(config: TestConfig,
+  private[rrt] def runSequential(comparison: BodyComparison,
+                                 config: TestConfig,
                                  random: RandomUtil,
                                  logHint: String)
                                 (rest: () => Future[(RequestData, HttpResponse, HttpResponse)])
@@ -37,7 +38,7 @@ object TestRunner {
         comparisonsBuilder += Await.result({
             for {
               (data, actual, expected) <- rest()
-              comparison <- ResponseComparator.compareResponses(actual, expected, config)
+              comparison <- ResponseComparator.compareResponses(actual, expected, comparison, config)
             } yield data -> comparison
           },
           config.timeout
@@ -70,13 +71,17 @@ object TestRunner {
     TestResult(config.name, !failed && failedTries == 0, config.repetitions - failedTries, failedTries, failedComparisons)
   }
 
-  private def requestServices(method: HttpMethod, test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+  private def requestServices(method: HttpMethod,
+                              test: EndpointTestCase,
+                              bodyComp: BodyComparison,
+                              config: TestConfig,
+                              random: RandomUtil)
                              (implicit system: ActorSystem): TestResult = {
     import system.dispatcher
 
     implicit val materializer = ActorMaterializer()
 
-    runSequential(config, random, method.value) { () =>
+    runSequential(bodyComp, config, random, method.value) { () =>
       val data = test(random)
 
       for {
@@ -86,24 +91,24 @@ object TestRunner {
     }
   }
 
-  def runGetSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+  def runGetSequential(test: EndpointTestCase, bodyComp: BodyComparison, config: TestConfig, random: RandomUtil)
                       (implicit system: ActorSystem): TestResult = {
-    requestServices(HttpMethods.GET, test, config, random)
+    requestServices(HttpMethods.GET, test, bodyComp, config, random)
   }
 
-  def runPostSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+  def runPostSequential(test: EndpointTestCase, bodyComp: BodyComparison, config: TestConfig, random: RandomUtil)
                        (implicit system: ActorSystem): TestResult = {
-    requestServices(HttpMethods.POST, test, config, random)
+    requestServices(HttpMethods.POST, test, bodyComp, config, random)
   }
 
-  def runPutSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+  def runPutSequential(test: EndpointTestCase, bodyComp: BodyComparison, config: TestConfig, random: RandomUtil)
                       (implicit system: ActorSystem): TestResult = {
-    requestServices(HttpMethods.PUT, test, config, random)
+    requestServices(HttpMethods.PUT, test, bodyComp, config, random)
   }
 
-  def runDeleteSequential(test: EndpointTestCase, config: TestConfig, random: RandomUtil)
+  def runDeleteSequential(test: EndpointTestCase, bodyComp: BodyComparison, config: TestConfig, random: RandomUtil)
                          (implicit system: ActorSystem): TestResult = {
-    requestServices(HttpMethods.DELETE, test, config, random)
+    requestServices(HttpMethods.DELETE, test, bodyComp, config, random)
   }
 
 }
