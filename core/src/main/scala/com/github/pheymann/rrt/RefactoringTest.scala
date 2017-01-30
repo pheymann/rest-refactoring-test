@@ -2,13 +2,16 @@ package com.github.pheymann.rrt
 
 import akka.actor.ActorSystem
 import cats.free.Free
-import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.util.BodyAsStringComparison
+import com.github.pheymann.rrt.util.ResponseComparator.{BodyComparison, ComparisonResult}
 
 trait RefactoringTest {
 
-  def runSequential(testCase: Free[TestAction, TestResult], config: TestConfig)
+  def runSequential(testCase: Free[TestAction, TestResult],
+                    config: TestConfig,
+                    comparison: BodyComparison = BodyAsStringComparison.stringComparison)
                    (implicit system: ActorSystem): TestResult = {
-    testCase.foldMap(TestActionInterpreter.interpreter(config))
+    testCase.foldMap(TestActionInterpreter.interpreter(comparison, config))
   }
 
   def checkResult(result: TestResult): Boolean = {
@@ -20,10 +23,7 @@ trait RefactoringTest {
   private def toLog(request: RequestData, comparisonResult: ComparisonResult): String = {
     s"${request.uri}?${request.params.map { case (key, value) => s"$key=$value" }.mkString("&")}\n" +
       request.bodyOpt.fold("")(body => body + "\n") +
-      comparisonResult.differences.map {
-        case (element, actual, expected) =>
-          s"$element:\n  actual:   " + Console.RED + actual + Console.WHITE + "\n  expected: " + Console.RED + expected + Console.WHITE
-      }.mkString("\n\n")
+      comparisonResult.failures.map(_.toLog).mkString("\n\n")
   }
 
   def prettyLog(result: TestResult): Unit = {
@@ -44,8 +44,8 @@ trait RefactoringTest {
 
   implicit class RefactoringTestRun(testCase: Free[TestAction, TestResult]) {
 
-    def runSeq(config: TestConfig)
-              (implicit system: ActorSystem): TestResult = runSequential(testCase, config)
+    def runSeq(config: TestConfig, comparison: BodyComparison = BodyAsStringComparison.stringComparison)
+              (implicit system: ActorSystem): TestResult = runSequential(testCase, config, comparison)
 
   }
 

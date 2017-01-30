@@ -6,12 +6,13 @@ import akka.actor.ActorSystem
 import com.github.pheymann.rrt.io.DbService
 import com.github.pheymann.rrt.io.DbService.UndefinedDatabase
 import com.github.pheymann.rrt.util.RandomUtil
+import com.github.pheymann.rrt.util.ResponseComparator.BodyComparison
 
 object TestActionInterpreter {
 
   import RandomUtil._
 
-  def interpreter(config: TestConfig)
+  def interpreter(comparison: BodyComparison, config: TestConfig)
                  (implicit system: ActorSystem): TestAction ~> Id = new (TestAction ~> Id) {
 
     config.dbConfigOpt.foreach(DbService.newDriver)
@@ -23,10 +24,10 @@ object TestActionInterpreter {
       case LongData(maxOpt)   => () => maxOpt.fold(rand.nextLong())(nextLong)
       case DoubleData(maxOpt) => () => maxOpt.fold(rand.nextDouble())(nextDouble)
 
-      case GetTestCase(test)  => TestRunner.runGetSequential(test, config, RandomUtil)
-      case PostTestCase(test) => TestRunner.runPostSequential(test, config, RandomUtil)
-      case PutTestCase(test)  => TestRunner.runPutSequential(test, config, RandomUtil)
-      case DeleteTestCase(test) => TestRunner.runDeleteSequential(test, config, RandomUtil)
+      case GetTestCase(test)  => TestRunner.runGetSequential(test, comparison, config, RandomUtil)
+      case PostTestCase(test) => TestRunner.runPostSequential(test, comparison, config, RandomUtil)
+      case PutTestCase(test)  => TestRunner.runPutSequential(test, comparison, config, RandomUtil)
+      case DeleteTestCase(test) => TestRunner.runDeleteSequential(test, comparison, config, RandomUtil)
 
       case FromDatabase(table, selectCol, resultCol, _action) =>
         config.dbConfigOpt.fold(throw UndefinedDatabase)(dbInterpreter(table, selectCol, resultCol, _action, _))

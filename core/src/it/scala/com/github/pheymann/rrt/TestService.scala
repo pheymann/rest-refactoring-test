@@ -3,7 +3,8 @@ package com.github.pheymann.rrt
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCodes}
+import StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import org.slf4j.LoggerFactory
@@ -14,15 +15,35 @@ object TestService {
 
   import ContentTypes._
 
-  val log = LoggerFactory.getLogger(getClass)
+  private val log = LoggerFactory.getLogger(getClass)
 
-  def route(port: Int) =
+  private val errorResponse = HttpResponse(BadRequest, entity = "{\"error\":\"something went wrong\"}")
+
+  private def route(port: Int, failing: Boolean) =
     path("hello" / Segment) { name =>
       get {
         if (log.isDebugEnabled)
           log.debug(s"GET:$port /hello - name = $name")
 
-        complete(HttpEntity(`text/html(UTF-8)`, s"<h2>hello $name</h2>"))
+        complete {
+          if (failing)
+            errorResponse
+          else
+            HttpEntity(`text/html(UTF-8)`, s"<h2>hello $name</h2>")
+        }
+      }
+    } ~
+    path("hello" / "json" / Segment) { name =>
+      get {
+        if (log.isDebugEnabled)
+          log.debug(s"GET:$port /hello/json - name = $name")
+
+        complete {
+          if (failing)
+            errorResponse
+          else
+            HttpEntity(`text/html(UTF-8)`, "{\"message\": \"hello " + name + "\"}")
+        }
       }
     } ~
     path("add" / IntNumber / "and" / IntNumber) { (a, b) =>
@@ -31,7 +52,12 @@ object TestService {
           if (log.isDebugEnabled)
             log.debug(s"GET:$port /add - offset = $offset; a = $a; b = $b")
 
-          complete(HttpEntity(`text/html(UTF-8)`, (a + b + offset.getOrElse(0)).toString))
+          complete {
+            if (failing)
+              errorResponse
+            else
+              HttpEntity(`text/html(UTF-8)`, (a + b + offset.getOrElse(0)).toString)
+          }
         }
       }
     } ~
@@ -40,21 +66,20 @@ object TestService {
         if (log.isDebugEnabled)
           log.debug(s"GET:$port /multiply - a = $a; b = $b")
 
-        complete(HttpEntity(`text/html(UTF-8)`, (a * b).toString))
+        complete {
+          if (failing)
+            errorResponse
+          else
+            HttpEntity(`text/html(UTF-8)`, (a * b).toString)
+        }
       }
     }
 
-  def run(port: Int)
+  def run(port: Int, failing: Boolean)
          (implicit system: ActorSystem): Future[ServerBinding] = {
     implicit val materializer = ActorMaterializer()
 
-    Http().bindAndHandle(route(port), "localhost", port)
-  }
-
-  def main(args: Array[String]): Unit = {
-    implicit val system = ActorSystem("example-service")
-
-    run(9000)
+    Http().bindAndHandle(route(port, failing), "localhost", port)
   }
 
 }

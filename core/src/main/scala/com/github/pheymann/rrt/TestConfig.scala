@@ -11,6 +11,7 @@ final case class TestConfig(
 
                              headers: List[(String, String)] = Nil,
                              bodyRemovals: List[String] = Nil,
+                             showDiffs: Boolean = false,
 
                              dbConfigOpt: Option[DatabaseConfig] = None,
 
@@ -33,6 +34,13 @@ final case class TestConfig(
     * @return updated config
     */
   def withBodyRemovals(removals: List[String]): TestConfig = this.copy(bodyRemovals = removals)
+
+  /** Show differences of response json rather than the whole bodies.
+    *
+    * @param show
+    * @return
+    */
+  def showJsonDiffs(show: Boolean): TestConfig = this.copy(showDiffs = show)
 
   /** Adds a database connection.
     *

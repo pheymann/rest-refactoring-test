@@ -2,8 +2,8 @@ package com.github.pheymann.rrt
 
 import akka.http.scaladsl.model.HttpResponse
 import akka.stream.ActorMaterializer
-import com.github.pheymann.rrt.util.RandomUtil
-import com.github.pheymann.rrt.util.ResponseComparator.ComparisonResult
+import com.github.pheymann.rrt.util.{BodyAsStringComparison, RandomUtil}
+import com.github.pheymann.rrt.util.ResponseComparator.{ComparisonResult, FailureWithValues}
 import org.specs2.mutable.Specification
 
 import scala.concurrent.Future
@@ -28,7 +28,7 @@ class TestRunnerSpec extends Specification {
         HttpResponse(entity = "{\"id\":0}")
       )
 
-      TestRunner.runSequential(testConfig, RandomUtil, "TEST-GET")(testRest0) should beEqualTo(
+      TestRunner.runSequential(BodyAsStringComparison.stringComparison, testConfig, RandomUtil, "TEST-GET")(testRest0) should beEqualTo(
         TestResult(testConfig.name, true, 1, 0, Nil)
       )
 
@@ -38,8 +38,8 @@ class TestRunnerSpec extends Specification {
         HttpResponse(entity = "{\"id\":1}")
       )
 
-      TestRunner.runSequential(testConfig, RandomUtil, "TEST-GET")(testRest1) should beEqualTo(
-        TestResult(testConfig.name, false, 0, 1, List(testRequest -> ComparisonResult(false, List(("body", "{\"id\":0}", "{\"id\":1}")))))
+      TestRunner.runSequential(BodyAsStringComparison.stringComparison, testConfig, RandomUtil, "TEST-GET")(testRest1) should beEqualTo(
+        TestResult(testConfig.name, false, 0, 1, List(testRequest -> ComparisonResult(false, List(FailureWithValues("body", "{\"id\":0}", "{\"id\":1}")))))
       )
     }
 
@@ -48,7 +48,7 @@ class TestRunnerSpec extends Specification {
 
       val testRest = () => Future.failed(new IllegalArgumentException("expected"))
 
-      TestRunner.runSequential(testConfig, RandomUtil, "TEST-GET")(testRest) should beEqualTo(
+      TestRunner.runSequential(BodyAsStringComparison.stringComparison, testConfig, RandomUtil, "TEST-GET")(testRest) should beEqualTo(
         TestResult(testConfig.name, false, 1, 0, Nil)
       )
     }

@@ -9,58 +9,69 @@ import scala.concurrent.Future
 
 object ResponseComparator {
 
-  final case class ComparisonResult(areEqual: Boolean, differences: List[(String, String, String)])
+  sealed trait ComparisonFailure {
 
-  def compareResponses(actual: HttpResponse, expected: HttpResponse, config: TestConfig)
+    def toLog: String
+
+  }
+
+  final case class FailureWithValues(element: String, actual: String, expected: String) extends ComparisonFailure {
+
+    override def toLog: String = {
+      s"${this.element}:\n  actual:   " + Console.RED + this.actual + Console.WHITE + "\n  expected: " + Console.RED + this.expected + Console.WHITE
+    }
+
+  }
+  final case class FailureWithDiffs(element: String, diffs: String) extends ComparisonFailure {
+
+    override def toLog: String = {
+      s"${this.element}:\n  differences: \n" + Console.RED + this.diffs + Console.WHITE + "\n"
+    }
+
+  }
+
+  type BodyComparison = (String, String, TestConfig) => Option[ComparisonFailure]
+
+  final case class ComparisonResult(areEqual: Boolean, failures: List[ComparisonFailure])
+
+  def compareResponses(actual: HttpResponse, expected: HttpResponse, compare: BodyComparison, config: TestConfig)
                       (implicit system: ActorSystem, materializer: Materializer): Future[ComparisonResult] = {
     import system.dispatcher
 
-    differentBodies(actual, expected, config).map { differenceOpt =>
-      val differences = List(
-        differentStatus(actual, expected),
-        differenceOpt
+    compareBodies(actual, expected, compare, config).map { failedBodyOpt =>
+      val failures = List(
+        compareStatus(actual, expected),
+        failedBodyOpt
       ).flatten
 
-      ComparisonResult(differences.isEmpty, differences)
+      ComparisonResult(failures.isEmpty, failures)
     }
   }
 
-  private[util] def differentStatus(actual: HttpResponse, expected: HttpResponse): Option[(String, String, String)] = {
+  private[util] def compareStatus(actual: HttpResponse, expected: HttpResponse): Option[ComparisonFailure] = {
     if (actual.status != expected.status)
-      Some(("status", actual.status.toString, expected.status.toString))
+      Some(FailureWithValues("status", actual.status.toString, expected.status.toString))
     else
       None
   }
 
-  private[util] def differentBodies(
-                                     actual: HttpResponse,
-                                     expected: HttpResponse,
-                                     config: TestConfig
-                                   )(implicit system: ActorSystem, materializer: Materializer): Future[Option[(String, String, String)]] = {
+  private def compareBodies(actual: HttpResponse,
+                            expected: HttpResponse,
+                            compare: BodyComparison,
+                            config: TestConfig)
+                           (implicit
+                            system: ActorSystem,
+                            materializer: Materializer): Future[Option[ComparisonFailure]] = {
     import system.dispatcher
 
     for {
       actualBody    <- actual.entity.toStrict(config.timeout).map(_.data.decodeString("UTF-8"))
       expectedBody  <- expected.entity.toStrict(config.timeout).map(_.data.decodeString("UTF-8"))
-
-      actualCleanedBody   = cleanBody(actualBody, config.bodyRemovals)
-      expectedCleanedBody = cleanBody(expectedBody, config.bodyRemovals)
-    } yield {
-      if (actualCleanedBody != expectedCleanedBody)
-        Some("body", actualCleanedBody, expectedCleanedBody)
-      else
-        None
-    }
+    } yield compare(actualBody, expectedBody, config)
   }
 
-  private final val EmptyReplacement = ""
+}
 
-  private[util] def cleanBody(body: String, removals: List[String]): String = {
-    var cleanedBody = body
-
-    for (removal <- removals)
-      cleanedBody = cleanedBody.replaceAll(removal, EmptyReplacement)
-    cleanedBody
-  }
+object BodyComparison {
 
 }
