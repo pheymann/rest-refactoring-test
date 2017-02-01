@@ -32,7 +32,14 @@ trait DataGeneratorSyntax {
       * @return a `Seq` of random values: A with random but bounded size
       */
     def toSeq(maxSize: Int)
-             (implicit rand: RandomUtil): Seq[A] = (0 to rand.nextPositiveInt(maxSize)).map(_ => gen())
+             (implicit rand: RandomUtil): Seq[A] = {
+      val size = rand.rand.nextInt(maxSize)
+
+      if (size == 0)
+        Nil
+      else
+        (0 to size).map(_ => gen())
+    }
 
     /** Generates a `Seq` of values from `RandomValueGen` with a defined
       * maximum size and at least one element.
