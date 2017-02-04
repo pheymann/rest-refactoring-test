@@ -11,8 +11,8 @@ object BodyAsStringComparison {
   def stringComparison(actual: String,
                        expected: String,
                        config: TestConfig): Option[ComparisonFailure] = {
-    val actualCleanedByKey   = cleanBodyByKey(actual, config.jsonIgnore)
-    val expectedCleanedByKey = cleanBodyByKey(expected, config.jsonIgnore)
+    val actualCleanedByKey   = cleanBodyByKey(actual, config.jsonIgnoreKeys)
+    val expectedCleanedByKey = cleanBodyByKey(expected, config.jsonIgnoreKeys)
 
     val actualCleaned   = cleanBodyByRegex(actualCleanedByKey, config.bodyRemovals)
     val expectedCleaned = cleanBodyByRegex(expectedCleanedByKey, config.bodyRemovals)

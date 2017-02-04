@@ -18,7 +18,7 @@ class CleanedResponseBodyItSpec extends Specification {
         }
       } yield result
 
-      checkAndLog(testCase.runSeq(testConfig.withJsonIgnore(List("test")))) should beTrue
+      checkAndLog(testCase.runSeq(testConfig.withIgnoreJsonKeys(List("test")))) should beTrue
     }
 
     "be cleaned by regex if at least one is set" in new WithTestServices(testConfig) {
@@ -42,7 +42,7 @@ class CleanedResponseBodyItSpec extends Specification {
 
       checkAndLog(testCase.runSeq(testConfig
         .withIgnoreByRegex(List("\"test\":[0-9]*"))
-        .withJsonIgnore(List("message"))
+        .withIgnoreJsonKeys(List("message"))
       )) should beTrue
     }
   }
