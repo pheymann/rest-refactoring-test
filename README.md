@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/pheymann/rest-refactoring-test.svg?branch=develop)](https://travis-ci.org/pheymann/rest-refactoring-test)
-[![Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rest-refactoring-test)
+[![Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rest-refactoring-test/Lobby)
 
 **rrt-core**:
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-core_2.11)
