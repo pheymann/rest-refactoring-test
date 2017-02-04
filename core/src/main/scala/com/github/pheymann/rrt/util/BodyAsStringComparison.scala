@@ -48,7 +48,7 @@ object BodyAsStringComparison {
   private[util] def cleanBodyByKey(body: String, keys: List[String]): String = {
     var cleanedBody = body
 
-    def innerKeyRegex(key: String): String = "\"" + key + "\"\\s*:\\s*(\".*\")?([0-9]*)?(null)?(\\[.*\\])?(\\{.*\\})?\\s*,"
+    def innerKeyRegex(key: String): String = "\"" + key + "\"\\s*:\\s*(\"[^,]*\")?([0-9]*)?(null)?(\\[.*\\])?(\\{.*\\})?\\s*,"
     def lastKeyRegex(key: String): String = "(,)?\"" + key + "\"\\s*:\\s*(\".*\")?([0-9]*)?(null)?(\\[.*\\])?(\\{.*\\})?\\s*\\}"
 
     for (key <- keys) {

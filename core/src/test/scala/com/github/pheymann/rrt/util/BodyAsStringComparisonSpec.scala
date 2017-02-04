@@ -48,9 +48,13 @@ class BodyAsStringComparisonSpec extends Specification {
 
       cleanBodyByKey(body6, List("test0")) must beEqualTo("{}")
 
-      val body7 = "{\"test0\":{\"a\":null},\"test1\":\"bbbbbb\",\"test2\":\"ccccc\"}"
+      val body7 = "{\"test0\":{\"a\":null,\"b\":0},\"test1\":\"bbbbbb\",\"test2\":\"ccccc\"}"
 
-      cleanBodyByKey(body7, List("test1")) must beEqualTo("{\"test0\":{\"a\":null},\"test2\":\"ccccc\"}")
+      cleanBodyByKey(body7, List("test1")) must beEqualTo("{\"test0\":{\"a\":null,\"b\":0},\"test2\":\"ccccc\"}")
+
+      val body8 = "{\"test0\":{\"a\":null,\"b\":0},\"test1\":\"bbbbbb\",\"test2\":{\"a\":null,\"b\":0}}"
+
+      cleanBodyByKey(body8, List("test2")) must beEqualTo("{\"test0\":{\"a\":null,\"b\":0},\"test1\":\"bbbbbb\"}")
     }
 
     "check if the response bodies are different" in {
