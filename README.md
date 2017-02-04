@@ -22,6 +22,7 @@ import com.github.pheymann.rrt._
 // GET /rest/hello/:name?age: Int
 val config = newConfig("my-test", ServiceConfig("refactored-rest.com", 8080), ServiceConfig("old-rest.com", 8081))
               .withRepetitions(100)
+              .withIgnoreJsonKeys(List("service-tracking-id"))
 
 val testCase = for {
   userNames <- genStaticData("Luke", "Anakin", "Yoda")
@@ -54,7 +55,8 @@ test case my-test succeeded
 Here, we create a test for a *GET* endpoint `/rest/hello/:name` which is currently provided by the 
 refactored REST service on `refactored-rest.com` and the old version on `old-rest.com`. The library
 will create a request with random `name` and `age` and send it to both services. It will
-then compare the responses and log possible differences. This step is repeated 100 times as configured.
+then remove the `"service-tracing-id"` key with value from the response Json and compare the responses and 
+log possible differences. This step is repeated 100 times as configured.
 
 Besides the random generation or selection of values you are also able to load data from a database,
 e.g. if you need existing user ids.
