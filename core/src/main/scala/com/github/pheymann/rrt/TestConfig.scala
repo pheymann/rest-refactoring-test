@@ -11,6 +11,7 @@ final case class TestConfig(
 
                              headers: List[(String, String)] = Nil,
                              bodyRemovals: List[String] = Nil,
+                             jsonIgnoreKeys: List[String] = Nil,
                              showDiffs: Boolean = false,
 
                              dbConfigOpt: Option[DatabaseConfig] = None,
@@ -33,7 +34,24 @@ final case class TestConfig(
     * @param removals regex pattern
     * @return updated config
     */
+  @deprecated("use `withIgnoreByRegex` instead")
   def withBodyRemovals(removals: List[String]): TestConfig = this.copy(bodyRemovals = removals)
+
+  /** Adds regex patterns which remove elements from the response body (entity). This can
+    * be useful if the response contains some values which differ for two service instances.
+    *
+    * @param regexes regex pattern
+    * @return updated config
+    */
+  def withIgnoreByRegex(regexes: List[String]): TestConfig = this.copy(bodyRemovals = regexes)
+
+  /** Adds a `List` of Json keys which will be removed from the response bodies together with the values. This can
+    * be useful if the response contains some values which differ for two service instances.
+    *
+    * @param keys json keys
+    * @return updated config
+    */
+  def withIgnoreJsonKeys(keys: List[String]): TestConfig = this.copy(jsonIgnoreKeys = keys)
 
   /** Show differences of response json rather than the whole bodies.
     *

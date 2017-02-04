@@ -11,14 +11,17 @@ object BodyAsStringComparison {
   def stringComparison(actual: String,
                        expected: String,
                        config: TestConfig): Option[ComparisonFailure] = {
-    val actualCleanedBody   = cleanBody(actual, config.bodyRemovals)
-    val expectedCleanedBody = cleanBody(expected, config.bodyRemovals)
+    val actualCleanedByKey   = cleanBodyByKey(actual, config.jsonIgnoreKeys)
+    val expectedCleanedByKey = cleanBodyByKey(expected, config.jsonIgnoreKeys)
+
+    val actualCleaned   = cleanBodyByRegex(actualCleanedByKey, config.bodyRemovals)
+    val expectedCleaned = cleanBodyByRegex(expectedCleanedByKey, config.bodyRemovals)
 
     if (config.showDiffs)
-      jsonComparison(actualCleanedBody, expectedCleanedBody)
+      jsonComparison(actualCleaned, expectedCleaned)
     else {
-      if (actualCleanedBody != expectedCleanedBody)
-        Some(FailureWithValues("body", actualCleanedBody, expectedCleanedBody))
+      if (actualCleaned != expectedCleaned)
+        Some(FailureWithValues("body", actualCleaned, expectedCleaned))
       else
         None
     }
@@ -42,11 +45,24 @@ object BodyAsStringComparison {
 
   private final val EmptyReplacement = ""
 
-  private[util] def cleanBody(body: String, removals: List[String]): String = {
+  private[util] def cleanBodyByKey(body: String, keys: List[String]): String = {
     var cleanedBody = body
 
-    for (removal <- removals)
-      cleanedBody = cleanedBody.replaceAll(removal, EmptyReplacement)
+    def innerKeyRegex(key: String): String = "\"" + key + "\"\\s*:\\s*(\".*\")?([0-9]*)?(null)?(\\[.*\\])?(\\{.*\\})?\\s*,"
+    def lastKeyRegex(key: String): String = "(,)?\"" + key + "\"\\s*:\\s*(\".*\")?([0-9]*)?(null)?(\\[.*\\])?(\\{.*\\})?\\s*\\}"
+
+    for (key <- keys) {
+      cleanedBody = cleanedBody.replaceAll(innerKeyRegex(key), EmptyReplacement)
+      cleanedBody = cleanedBody.replaceAll(lastKeyRegex(key), "}")
+    }
+    cleanedBody
+  }
+
+  private[util] def cleanBodyByRegex(body: String, regexes: List[String]): String = {
+    var cleanedBody = body
+
+    for (regex <- regexes)
+      cleanedBody = cleanedBody.replaceAll(regex, EmptyReplacement)
     cleanedBody
   }
 

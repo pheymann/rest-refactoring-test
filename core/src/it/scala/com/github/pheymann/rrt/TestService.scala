@@ -42,7 +42,20 @@ object TestService {
           if (failing)
             errorResponse
           else
-            HttpEntity(`text/html(UTF-8)`, "{\"message\": \"hello " + name + "\"}")
+            HttpEntity(`text/html(UTF-8)`, "{\"message\": \"hello " + name + "\",\"test\":01234}")
+        }
+      }
+    } ~
+    path("hello" / "json" / "differ" / Segment) { name =>
+      get {
+        if (log.isDebugEnabled)
+          log.debug(s"GET:$port /hello/json - name = $name")
+
+        complete {
+          if (failing)
+            errorResponse
+          else
+            HttpEntity(`text/html(UTF-8)`, "{\"message\": \"hello " + name + "\",\"test\":" + System.currentTimeMillis.toString + "}")
         }
       }
     } ~
