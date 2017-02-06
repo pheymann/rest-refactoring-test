@@ -66,7 +66,7 @@ object TestRunner {
 
     val comparisons = comparisonsBuilder.result()
     val failedComparisons = comparisons.filterNot(_._2.areEqual)
-    val failedTries = failedComparisons.length
+    val failedTries = failedComparisons.length + (if (failed) 1 else 0)
 
     TestResult(config.name, !failed && failedTries == 0, config.repetitions - failedTries, failedTries, failedComparisons)
   }

@@ -49,7 +49,7 @@ class TestRunnerSpec extends Specification {
       val testRest = () => Future.failed(new IllegalArgumentException("expected"))
 
       TestRunner.runSequential(BodyAsStringComparison.stringComparison, testConfig, RandomUtil, "TEST-GET")(testRest) should beEqualTo(
-        TestResult(testConfig.name, false, 1, 0, Nil)
+        TestResult(testConfig.name, false, 0, 1, Nil)
       )
     }
   }
