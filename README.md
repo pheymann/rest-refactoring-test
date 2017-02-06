@@ -8,6 +8,8 @@
 **rrt-plugin**:
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.pheymann/rrt-plugin)
 
+Currently in release process: 2.2.0
+
 # rest-refactoring-test (rrt)
 Often you have to refactor or fix REST services which are not covered by extensive automated test and are hard
 to test at all. But you want to make sure that these services haven't changed their behaviour after 
