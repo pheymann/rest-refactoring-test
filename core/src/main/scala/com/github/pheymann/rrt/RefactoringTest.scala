@@ -14,9 +14,7 @@ trait RefactoringTest {
     testCase.foldMap(TestActionInterpreter.interpreter(comparison, config))
   }
 
-  def checkResult(result: TestResult): Boolean = {
-    result.failedTries == 0
-  }
+  def checkResult(result: TestResult): Boolean = result.successful
 
   private final val PrintPrefix = "  "
 
