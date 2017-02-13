@@ -3,7 +3,7 @@ import sbt.Keys._
 val commonSettings = Seq(
   organization := "com.github.pheymann",
   scalaVersion := "2.11.8",
-  version      := "2.2.1",
+  version      := "2.3.0",
 
   sonatypeProfileName := "pheymann",
   pomExtra in Global := {

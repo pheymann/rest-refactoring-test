@@ -40,7 +40,7 @@ object ResponseComparator {
 
     compareBodies(actual, expected, compare, config).map { failedBodyOpt =>
       val failures = List(
-        compareStatus(actual, expected),
+        compareStatus(actual, expected, config),
         failedBodyOpt
       ).flatten
 
@@ -48,9 +48,11 @@ object ResponseComparator {
     }
   }
 
-  private[util] def compareStatus(actual: HttpResponse, expected: HttpResponse): Option[ComparisonFailure] = {
+  private[util] def compareStatus(actual: HttpResponse, expected: HttpResponse, config: TestConfig): Option[ComparisonFailure] = {
     if (actual.status != expected.status)
       Some(FailureWithValues("status", actual.status.toString, expected.status.toString))
+    else if (!config.ignoreStatusFailure && actual.status.isFailure)
+      Some(FailureWithValues("status failure", actual.status.toString, expected.status.toString))
     else
       None
   }

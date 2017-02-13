@@ -1,8 +1,10 @@
 package com.github.pheymann.rrt
 
+import akka.http.scaladsl.model.ContentType
+
 import scala.language.implicitConversions
 
-final case class RequestData(uri: String, params: Map[String, String], bodyOpt: Option[String] = None)
+final case class RequestData(uri: String, params: Map[String, String], bodyOpt: Option[String] = None, contentTypeOpt: Option[ContentType.NonBinary] = None)
 
 trait RequestDataSyntax {
 
@@ -41,6 +43,13 @@ trait RequestDataSyntax {
       * @return updated `RequestData`
       */
     def |+|(body: String): RequestData = request.copy(bodyOpt = Some(body))
+
+    /** Adds a body content type to the `RequestData`.
+      *
+      * @param contentType request body content type
+      * @return RequestData
+      */
+    def |=|(contentType: ContentType.NonBinary): RequestData = request.copy(contentTypeOpt = Some(contentType))
 
   }
 

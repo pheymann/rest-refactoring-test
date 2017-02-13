@@ -41,7 +41,7 @@ object RestService {
       method,
       Uri(completeUri).withQuery(Query(params)),
       createHeaders(headers),
-      entity = bodyOpt.fold(HttpEntity.Empty)(body => body)
+      entity = bodyOpt.fold(HttpEntity.Empty)(body => HttpEntity(data.contentTypeOpt.getOrElse(ContentTypes.`text/plain(UTF-8)`), body))
     ))
   }
 
