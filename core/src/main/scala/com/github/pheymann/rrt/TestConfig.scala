@@ -4,22 +4,29 @@ import com.github.pheymann.rrt.io.DbService.DatabaseType
 
 import scala.concurrent.duration._
 
-final case class TestConfig(
-                             name: String,
-                             actual: ServiceConfig,
-                             expected: ServiceConfig,
+final case class TestConfig(name: String,
+                            actual: ServiceConfig,
+                            expected: ServiceConfig,
+                            ignoreStatusFailure: Boolean = false,
 
-                             headers: List[(String, String)] = Nil,
-                             bodyRemovals: List[String] = Nil,
-                             jsonIgnoreKeys: List[String] = Nil,
-                             showDiffs: Boolean = false,
+                            headers: List[(String, String)] = Nil,
+                            bodyRemovals: List[String] = Nil,
+                            jsonIgnoreKeys: List[String] = Nil,
+                            showDiffs: Boolean = false,
 
-                             dbConfigOpt: Option[DatabaseConfig] = None,
+                            dbConfigOpt: Option[DatabaseConfig] = None,
 
-                             repetitions: Int = 1,
-                             requestPerSecondOpt: Option[Int] = None,
-                             timeout: FiniteDuration = 21400000.seconds
-                           ) {
+                            repetitions: Int = 1,
+                            requestPerSecondOpt: Option[Int] = None,
+                            timeout: FiniteDuration = 21400000.seconds) {
+
+  /** Ignores http status failures (not 2xx response status). Comparison still takes place. If
+    * response statuses are different it still raises an error.
+    *
+    * @param ignore if `true` status is compared but a failure will be ignored else not
+    * @return updated config
+    */
+  def ignoreStatusFailure(ignore: Boolean): TestConfig = this.copy(ignoreStatusFailure = ignore)
 
   /** Adds standard headers to all requests.
     *

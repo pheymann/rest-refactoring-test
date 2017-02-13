@@ -8,14 +8,14 @@ import org.specs2.mutable.BeforeAfter
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 
-abstract class WithTestServices(config: TestConfig, actualFails: Boolean = false, expectedBFails: Boolean = false) extends TestKit(ActorSystem()) with BeforeAfter {
+abstract class WithTestServices(config: TestConfig, actualFails: Boolean = false, expectedFails: Boolean = false) extends TestKit(ActorSystem()) with BeforeAfter {
 
   var actualFut: Future[ServerBinding] = _
   var expectedFut: Future[ServerBinding] = _
 
   override def before = {
     actualFut = TestService.run(config.actual.port, actualFails)
-    expectedFut = TestService.run(config.expected.port, expectedBFails)
+    expectedFut = TestService.run(config.expected.port, expectedFails)
   }
 
   override def after = {
