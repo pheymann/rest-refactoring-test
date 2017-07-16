@@ -51,7 +51,7 @@ Output:
 
 test case my-test succeeded
   succeeded tries: 100
-  failed trie:     0
+  failed tries     0
 ```
 
 Here, we create a test for a *GET* endpoint `/rest/hello/:name` which is currently provided by the 
