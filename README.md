@@ -10,7 +10,7 @@
 
 Currently in release process: 2.2.1
 
-# rest-refactoring-test (rrt)
+# [DEPRECATED | replacement [artie](https://github.com/pheymann/artie)] rest-refactoring-test (rrt)
 Often you have to refactor or fix REST services which are not covered by extensive automated test and are hard
 to test at all. But you want to make sure that these services haven't changed their behaviour after 
 you have done your changes. 
